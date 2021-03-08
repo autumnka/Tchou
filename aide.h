@@ -6,6 +6,7 @@
 #include <QPixmap>
 #include <QLabel>
 
+// changement
 namespace Ui {
 class Aide;
 }
