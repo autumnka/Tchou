@@ -1,11 +1,6 @@
 #include "grille.h"
-
-
 #include <QtGui>
-
-// Constructeur qui utilise un fichier pour generer une grille aleatoire
-// a partir d'un fichier de grille existant
-Grille::Grille(QPoint pos, int tailleEnPix, QPoint entree, QPoint sortie, int nb_case)
+Grille::Grille(QPoint pos, int tailleEnPix,QPoint entree, QPoint sortie, int nb_case)
 {
     this->pos = pos;
     this->tailleEnPix = tailleEnPix;
@@ -44,9 +39,7 @@ Grille::Grille(QPoint pos, int tailleEnPix, QPoint entree, QPoint sortie, int nb
         matrice_case[2][0] = new CaseRail(1, QPoint(pos.x(), pos.y()+2*t_c), t_c);
         matrice_case[1][2] = new CaseRail(1, QPoint(pos.x()+2*t_c, pos.y()+t_c), t_c);
     }
-
 }
-
 void Grille::afficher(QPainter *p)
 {
     for (int i = 0; i<nb_case; ++i)
@@ -55,20 +48,69 @@ void Grille::afficher(QPainter *p)
             matrice_case[i][j]->afficher(p);
     }
 }
-/*
+
+// Constructeur qui utilise un fichier pour generer une grille aleatoire
+// a partir d'un fichier de grille existant
+/*Grille::Grille(QPoint pos, QPoint entree, QPoint sortie, int nb_case, QString nomFicher)
+{
+
+}*/
+
 QString Grille::verifierChemin()
 {
-    return "";
+    bool continuer=true;
+    bool valide=false;
+
+    Case* caseEntree=new Case(1, entree,1);
+    Case* caseSortie=new Case(1, sortie,1);
+    Case* case_courante = caseEntree;
+    Case* case_precedente;
+    QString retour, instructionDeplacement;
+    //on verifie que le chemin commence bien au départ (pas sûr que ce soit nécessaire)
+    if(!sontConnecter(*case_courante, *caseEntree)){
+        continuer=false;
+        //renvoyer position case_courante
+    }
+    else{
+        do{
+            //on parcours les cases voisines sauf la case precedentes
+            //une case rail ne peut être connectée qu'à 2 autres cases au max
+            int i=0;
+            while((caseVoisine(*case_courante)[i]!=case_precedente)&&(!sontConnecter(*case_courante, *caseVoisine(*case_courante)[i]))&&(i<5)){
+                i++;
+            }
+            //si aucune case voisine n'est connectée
+           if(i==5){
+               continuer = false;
+                valide = false;
+            }
+           else{
+                //on renseigne la direction du deplacement vers la case connectée
+                instructionDeplacement+=directionDeplacement(*case_courante, *caseVoisine(*case_courante)[i]);
+                case_precedente = case_courante;
+                case_courante= caseVoisine(*case_courante)[i];
+                //on s'arrete sur la case adjacente à la case sortie
+                if(sontConnecter(*case_courante, *caseSortie)){
+                    continuer = false;
+                    valide = true;
+                }
+           }
+        }while(continuer);
+    }
+    //le premier caractère est 0 si le chemin n'est pas valide, 1 sinon
+    retour=QString::number(valide);
+    //on indique ensuite la position de la case sur laquelle le chemin s'arrête
+    retour+=QString::number(case_courante->getPosition().rx())+QString::number(case_courante->getPosition().ry());
+    //et les instructions de déplacements pour le chemin
+    retour+=instructionDeplacement;
+    return retour;
 }
 
 bool Grille::sontConnecter(const Case &c1, const Case &c2)
 {
     Case* vois= *caseVoisine(c1);
-
     for(int i=0;i<5;i++){
-
         if(c2.getPosition()==(vois[i]).getPosition()) return true;
-
     }
     return false;
 }
@@ -76,15 +118,12 @@ bool Grille::sontConnecter(const Case &c1, const Case &c2)
 Case** Grille::caseVoisine(const Case &c)
 {
     //il faut gérer les exceptions sur les bords
+
     Case** ens;
     int k=0;
-
     //on parcours les cases
-
     for(int i=c.getPosition().rx()-1;i<=c.getPosition().rx()+1;i++){
-
         for(int j=c.getPosition().ry()-1;j<=c.getPosition().ry()+1;j++){
-
             if((i!=c.getPosition().rx())&(j!=c.getPosition().ry())){
                 ens[k]=matrice_case[i][j];
                 k++;
@@ -93,47 +132,43 @@ Case** Grille::caseVoisine(const Case &c)
     }
     return ens;
 }
+//retourne la direction de la case 1 à la case 2
+//h: haut, b:bas, d:droite, g:gauche
 QChar Grille::directionDeplacement(const Case &c1, const Case &c2)
 {
-   if(!sontConnecter(c1,c2))
-   {
+   if(!sontConnecter(c1,c2)){
     int diff=10*(c1.getPosition().rx()-c2.getPosition().rx())+(c1.getPosition().ry()-c1.getPosition().ry());
-
     switch(diff){
-
         //c1 est a gauche de c2
-
         case -1:return 'd';
-
-        break;
-
+                break;
         //c1 est a droite de c2
-
         case 1:return 'g';
-
-        break;
-
+                break;
         //c1 est au dessus de c2
-
-        case -10:return 'd';
-
-        break;
-
+        case -10:return 'b';
+                break;
         //c1 est en dessous de c2
-
-        case 10:return 'b';
-
-        break;
+        case 10:return 'h';
+                break;
     }
    }
-
-   return 'd';
+   return 'd'; //par défaut
 }
-
-
 
 void Grille::deplacer(Case &c)
 {
-
+    //on va deplacer la case si ce n'est pas la case vide
+    //on cherche la position de la case vide
+    int i=0,j=0;
+    while((i<nb_case)&&((matrice_case[i][j])->getType()!=0)){
+        //on parcours ligne par ligne la matrice des cases
+        if(j<nb_case-1) j++;
+        else{
+            //on passe  à la ligne suivante
+            j=0;
+            i++;
+        }
+    }
+    c.echanger(*matrice_case[i][j]);
 }
-*/
