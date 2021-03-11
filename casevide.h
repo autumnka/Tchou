@@ -10,7 +10,7 @@
 class CaseVide : public Case
 {
     public:
-        CaseVide(int type, QPoint p, int taille);
+        CaseVide(int type, QPoint p = {0, 0}, int taille=1);
         void afficher(QPainter *painter) const;
 };
 
