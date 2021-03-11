@@ -1,12 +1,12 @@
 #include "caserail.h"
 
-
-CaseRail::CaseRail(int type, QPoint p, int taille) : Case(type, p, taille)
+CaseRail::CaseRail(int type, QPoint p, int taille) : Case(type, p,taille)
 {
+   // m_bout1 = bout1;
+   // m_bout2 = bout2;
 }
 
-void CaseRail::afficher(QPainter *painter) const
-{
+void CaseRail:: afficher(QPainter *painter) const{
     QPixmap *pixmap;
     switch (m_typeCase)
     {
