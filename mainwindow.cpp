@@ -1,5 +1,9 @@
 #include "mainwindow.h"
-
+#include "ui_mainwindow.h"
+#include "aide.h"
+#include "ui_aide.h"
+#include <QtGui>
+#include <QRadioButton>
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -53,20 +57,11 @@ void MainWindow::on_pushButton_2_clicked()
 void MainWindow::changerAffichage()
 {
     affichage = !affichage;
-    //affichePartie();
-    repaint();
+    affichePartie();
 }
 
 void MainWindow::paintEvent(QPaintEvent *e)
 {
-    //QPainter painter(this);
-
-    //QPixmap pixmap(":/images/rail_courbe1.jpg");
-    //painter.drawPixmap(100,100,100,100, pixmap);
-
-    // Methode alternative pour afficher une image dans un label
-    //ui->label_4->setPixmap(QPixmap(":/images/testimage.jpeg"));
-
     affichePartie();
 }
 
@@ -76,7 +71,6 @@ void MainWindow::affichePartie()
 
     for (int i=0; i<4; i++)
         this->list_widget_parametre_window[i]->setVisible(!affichage);
-
     if (affichage)
         afficherGrille();
 }
@@ -90,9 +84,8 @@ void MainWindow::selectionnerNiv1()
 void MainWindow::selectionnerNiv2()
 {
     ui->label_4->setText("Partie de TchouTchou niveau difficile");
-    m_niv = 2;
+    m_niv=2;
 }
-
 void MainWindow::afficherGrille()
 {
     QPainter *painter = new QPainter(this);
@@ -105,7 +98,13 @@ void MainWindow::afficherGrille()
     else
         taille_grille = 3;
 
-    Grille g(QPoint(150,50), 500, QPoint(0,0), QPoint(0, 0), taille_grille);
-    g.afficher(painter);
+    Grille *g=new Grille(QPoint(150,50), 500, QPoint(0,0), QPoint(0, 0), taille_grille);
+    g->afficher(painter);
 }
+
+void MainWindow::zoneClick(){
+
+
+}
+
 

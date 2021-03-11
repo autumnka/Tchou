@@ -7,6 +7,7 @@
 
 #include "feu.h"
 #include "train.h"
+#include "mainwindow.h"
 
 //#include "grille.h"
 class Partie

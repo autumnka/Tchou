@@ -5,14 +5,17 @@
 #include <QObject>
 #include <QWidget>
 #include "case.h"
-#include <QtGui>
+
+//enum Direction {h, b, g, d};
 
 class CaseRail : public Case
 {
     public:
-        CaseRail(int type, QPoint p, int taille);
-
+        CaseRail(int type, QPoint p={0, 0}, int taille=1);
         void afficher(QPainter *painter) const;
+
+    private:
+
 };
 
 #endif // CASERAIL_H
