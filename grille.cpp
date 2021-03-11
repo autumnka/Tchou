@@ -61,10 +61,10 @@ QString Grille::verifierChemin()
     bool continuer=true;
     bool valide=false;
 
-    Case* caseEntree=new Case(1, entree,1);
-    Case* caseSortie=new Case(1, sortie,1);
-    Case* case_courante = caseEntree;
-    Case* case_precedente;
+    CaseRail* caseEntree=new CaseRail(1, entree,1);
+    CaseRail* caseSortie=new CaseRail(1, sortie,1);
+    CaseRail* case_courante = caseEntree;
+    CaseRail* case_precedente;
     QString retour, instructionDeplacement;
     //on verifie que le chemin commence bien au départ (pas sûr que ce soit nécessaire)
     if(!sontConnecter(*case_courante, *caseEntree)){
@@ -106,26 +106,26 @@ QString Grille::verifierChemin()
     return retour;
 }
 
-bool Grille::sontConnecter(const Case &c1, const Case &c2)
+bool Grille::sontConnecter(const CaseRail &c1, const CaseRail &c2)
 {
-    Case* vois= *caseVoisine(c1);
+    CaseRail* vois= *caseVoisine((CaseRail)c1);
     for(int i=0;i<5;i++){
         if(c2.getPosition()==(vois[i]).getPosition()) return true;
     }
     return false;
 }
 
-Case** Grille::caseVoisine(const Case &c)
+CaseRail** Grille::caseVoisine(const CaseRail &c)
 {
     //il faut gérer les exceptions sur les bords
 
-    Case** ens;
+    CaseRail** ens;
     int k=0;
     //on parcours les cases
     for(int i=c.getPosition().rx()-1;i<=c.getPosition().rx()+1;i++){
         for(int j=c.getPosition().ry()-1;j<=c.getPosition().ry()+1;j++){
             if((i!=c.getPosition().rx())&(j!=c.getPosition().ry())){
-                ens[k]=matrice_case[i][j];
+                ens[k]=new CaseRail(matrice_case[i][j]->getType(),matrice_case[i][j]->getPosition(),matrice_case[i][j]->getTaille());
                 k++;
             }
         }
@@ -134,7 +134,7 @@ Case** Grille::caseVoisine(const Case &c)
 }
 //retourne la direction de la case 1 à la case 2
 //h: haut, b:bas, d:droite, g:gauche
-QChar Grille::directionDeplacement(const Case &c1, const Case &c2)
+QChar Grille::directionDeplacement(const CaseRail &c1, const CaseRail &c2)
 {
    if(!sontConnecter(c1,c2)){
     int diff=10*(c1.getPosition().rx()-c2.getPosition().rx())+(c1.getPosition().ry()-c1.getPosition().ry());
@@ -156,7 +156,7 @@ QChar Grille::directionDeplacement(const Case &c1, const Case &c2)
    return 'd'; //par défaut
 }
 
-void Grille::deplacer(Case &c)
+void Grille::deplacer(CaseRail &c)
 {
     //on va deplacer la case si ce n'est pas la case vide
     //on cherche la position de la case vide
