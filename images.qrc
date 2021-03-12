@@ -2,5 +2,15 @@
     <qresource prefix="/images">
         <file>rail.png</file>
         <file>testimage.jpeg</file>
+        <file>rail_vertical.png</file>
+        <file>rail_horizontal.png</file>
+        <file>rail_courbe4.jpg</file>
+        <file>rail_courbe3.jpg</file>
+        <file>rail_courbe2.jpg</file>
+        <file>rail_courbe1.jpg</file>
+        <file>feuEteint.jpg</file>
+        <file>feuRouge.jpg</file>
+        <file>feuVert.jpg</file>
     </qresource>
+    <qresource prefix="/"/>
 </RCC>

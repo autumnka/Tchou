@@ -11,8 +11,9 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 
     this->setUpParametreWindow();
 
-    affichage = false;
-    //this->affichePartie();
+    interfaceCourante = "parametre";
+
+    grille = new Grille();
 }
 
 // Créer les widgets pour quand la MainWindow est en mode paramatre
@@ -37,7 +38,7 @@ void MainWindow::setUpParametreWindow()
     list_widget_parametre_window[2] = niv1;
     list_widget_parametre_window[3] = niv2;
 
-    QObject::connect(jouer, SIGNAL(clicked()), this, SLOT(changerAffichage()));
+    QObject::connect(jouer, SIGNAL(clicked()), this, SLOT(button_jouer_clicked()));
 
     QObject::connect(niv1, SIGNAL(clicked()), this, SLOT(selectionnerNiv1()));
     QObject::connect(niv2, SIGNAL(clicked()), this, SLOT(selectionnerNiv2()));
@@ -54,10 +55,27 @@ void MainWindow::on_pushButton_2_clicked()
     a.exec();
 }
 
-void MainWindow::changerAffichage()
+void MainWindow::button_jouer_clicked()
 {
-    affichage = !affichage;
-    affichePartie();
+    switchAffichage();
+    jouer();
+}
+
+void MainWindow::jouer()
+{
+    grille = new Grille(*posGrille, taillePixelGrille, QPoint(0,0), QPoint(0, 0), tailleGrille);
+
+    //Case *c = grille->getMatrice()[0][0];
+
+    //grille->deplacer(*c);
+
+    repaint();
+}
+
+void MainWindow::switchAffichage()
+{
+    interfaceCourante = "partie";
+    repaint();
 }
 
 void MainWindow::paintEvent(QPaintEvent *e)
@@ -67,44 +85,73 @@ void MainWindow::paintEvent(QPaintEvent *e)
 
 void MainWindow::affichePartie()
 {
-    ui->centralwidget->setVisible(affichage);
-
-    for (int i=0; i<4; i++)
-        this->list_widget_parametre_window[i]->setVisible(!affichage);
-    if (affichage)
+    bool interfac=true;
+    if (interfaceCourante =="parametre")
+        interfac = true;
+    else
+    {
+        interfac = false;
         afficherGrille();
+        //QPainter *painter = new QPainter(this);
+        //feu->afficher(painter);
+    }
+
+    ui->centralwidget->setVisible(!interfac);
+    for (int i=0; i<4; i++)
+        this->list_widget_parametre_window[i]->setVisible(interfac);
 }
 
 void MainWindow::selectionnerNiv1()
 {
     ui->label_4->setText("Partie de TchouTchou niveau facile");
-    m_niv = 1;
+    tailleGrille = 2;
 }
 
 void MainWindow::selectionnerNiv2()
 {
     ui->label_4->setText("Partie de TchouTchou niveau difficile");
-    m_niv=2;
+    tailleGrille = 3;
 }
+
 void MainWindow::afficherGrille()
 {
     QPainter *painter = new QPainter(this);
-
-    //int x = 150, y = 50, taille = 500;
-
-    int taille_grille;
-    if (m_niv == 1)
-        taille_grille = 2;
-    else
-        taille_grille = 3;
-
-    Grille *g=new Grille(QPoint(150,50), 500, QPoint(0,0), QPoint(0, 0), taille_grille);
-    g->afficher(painter);
+    grille->afficher(painter);
 }
 
-void MainWindow::zoneClick(){
+void MainWindow::mousePressEvent(QMouseEvent *me)
+{
+    QPoint p=me->pos();
 
-
+    //on recupere la position du click de la souris
+    if(me->button()==Qt::LeftButton)
+    {
+            for(int i=0;i<grille->getNbCase();i++)
+            {
+                for(int j=0;j<grille->getNbCase();j++)
+                {
+                    Case *c = grille->getMatrice()[i][j];
+                    int x = c->getPosition().x();
+                    int y = c->getPosition().y();
+                    if (p.x()>=x && p.x()<=x+c->getTaille() && p.y()>=y && p.y()<=y+c->getTaille())
+                        grille->deplacer(*c);
+                }
+            }
+    }
+    repaint();
 }
 
 
+//on appuie sur le bouton pour lancer le train normalement
+//mais pour l'instant c'est juste pour allumer le feu
+void MainWindow::on_AppuyerFeu_clicked()
+{
+    QPainter *painter = new QPainter(this);
+    //on verifie le chemin
+    //bool valide=(grille->verifierChemin()[0]).digitValue();
+    //on change l'etat du feu
+    //feu->allumer(valide);
+    //on allume le feu de la bonne couleur
+    //feu->afficher(painter);
+    //repaint();
+}

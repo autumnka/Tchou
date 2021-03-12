@@ -132,6 +132,19 @@
      <string>Partie de TchouTchou</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="AppuyerFeu">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>140</y>
+      <width>80</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>AppuyerFeu</string>
+    </property>
+   </widget>
    <zorder>frame</zorder>
    <zorder>pushButton</zorder>
    <zorder>label</zorder>
@@ -139,6 +152,7 @@
    <zorder>label_3</zorder>
    <zorder>pushButton_2</zorder>
    <zorder>label_4</zorder>
+   <zorder>AppuyerFeu</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -146,7 +160,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>29</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
