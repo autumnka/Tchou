@@ -1,11 +1,14 @@
 #include "grille.h"
 #include <QtGui>
+
+Grille::Grille(){}
+
 Grille::Grille(QPoint pos, int tailleEnPix,QPoint entree, QPoint sortie, int nb_case)
 {
     this->pos = pos;
     this->tailleEnPix = tailleEnPix;
-    this->entree = entree;
-    this->sortie = sortie;
+    this->entree = new QPoint(entree);
+    this->sortie = new QPoint(sortie);
     this->nb_case = nb_case;
 
     matrice_case = new Case**[nb_case];
@@ -24,6 +27,7 @@ Grille::Grille(QPoint pos, int tailleEnPix,QPoint entree, QPoint sortie, int nb_
         matrice_case[0][1] = new CaseVide(0, QPoint(pos.x()+t_c, pos.y()), t_c);
         matrice_case[1][0] = new CaseRail(3, QPoint(pos.x(), pos.y()+t_c), t_c);
         matrice_case[1][1] = new CaseRail(1, QPoint(pos.x()+t_c, pos.y()+t_c), t_c);
+
     }
 
     if (nb_case == 3)
@@ -39,6 +43,7 @@ Grille::Grille(QPoint pos, int tailleEnPix,QPoint entree, QPoint sortie, int nb_
         matrice_case[2][0] = new CaseRail(1, QPoint(pos.x(), pos.y()+2*t_c), t_c);
         matrice_case[1][2] = new CaseRail(1, QPoint(pos.x()+2*t_c, pos.y()+t_c), t_c);
     }
+    this->sortie = new QPoint(entree.x()+nb_case*tailleEnPix,entree.y()+(nb_case-1)*tailleEnPix);
 }
 void Grille::afficher(QPainter *p)
 {
@@ -61,8 +66,8 @@ QString Grille::verifierChemin()
     bool continuer=true;
     bool valide=false;
 
-    CaseRail* caseEntree=new CaseRail(1, entree,1);
-    CaseRail* caseSortie=new CaseRail(1, sortie,1);
+    CaseRail* caseEntree=new CaseRail(1, *entree,1);
+    CaseRail* caseSortie=new CaseRail(1, *sortie,1);
     CaseRail* case_courante = caseEntree;
     CaseRail* case_precedente;
     QString retour, instructionDeplacement;
@@ -156,7 +161,7 @@ QChar Grille::directionDeplacement(const CaseRail &c1, const CaseRail &c2)
    return 'd'; //par défaut
 }
 
-void Grille::deplacer(CaseRail &c)
+void Grille::deplacer(Case &c)
 {
     //on va deplacer la case si ce n'est pas la case vide
     //on cherche la position de la case vide
@@ -171,4 +176,15 @@ void Grille::deplacer(CaseRail &c)
         }
     }
     c.echanger(*matrice_case[i][j]);
+}
+
+//getters et setters
+int Grille::getNbCase(){
+    return nb_case;
+}
+Case*** Grille::getMatrice(){
+    return matrice_case;
+}
+QPoint Grille::getPos(){
+    return pos;
 }

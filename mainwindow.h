@@ -8,8 +8,8 @@
 #include "ui_mainwindow.h"
 #include "aide.h"
 #include "ui_aide.h"
-#include "partie.h"
 #include "grille.h"
+#include "feu.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -23,26 +23,37 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void jouer();
+    void switchAffichage();
+    void affichePartie();
+    void afficherGrille();
+    void AllumerFeu();
+
 private slots:
     void on_pushButton_2_clicked();
-    void changerAffichage();
-
+    void button_jouer_clicked();
+    void mousePressEvent(QMouseEvent *me);
     void selectionnerNiv1();
     void selectionnerNiv2();
+
+    void on_AppuyerFeu_clicked();
 
 private:
     Ui::MainWindow *ui;
     void paintEvent(QPaintEvent* e);
 
-    // Ci dessous les fonctions qui servent à l'affiche de la partie ou des paramètres
-    void affichePartie();
-    // Vaut 0 si la MainWindow affiche les parametre et vaux 1 si elle affiche la partie
-    bool affichage;
     void setUpParametreWindow();
     QWidget **list_widget_parametre_window;
 
-    int m_niv = -1;
+    QString interfaceCourante; // soit "parametre", soit "partie"
 
-    void afficherGrille();
+    int tailleGrille=2; // Le nombre de case de la grille
+    int taillePixelGrille=500;
+    //coordonnee du coin en haut a gauche
+    QPoint *posGrille = new QPoint(150,50);
+    Grille *grille;
+
+    Feu* feu;
+
 };
 #endif // MAINWINDOW_H

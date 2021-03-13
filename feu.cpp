@@ -2,9 +2,14 @@
 
 Feu::Feu(QPoint position, int etat)
 {
-    m_position=position;
+    m_position=new QPoint(position);
     m_etatFeu=etat;
 }
+
+int Feu::getEtat(){
+    return m_etatFeu;
+}
+
 //on allume le feu selon que le chemin soit bon ou pas
 void Feu::allumer(bool chemin){
     if(chemin){
@@ -17,3 +22,20 @@ void Feu::allumer(bool chemin){
 void Feu::eteindre(){
     m_etatFeu=0;
 }
+
+// cette fonction se declenche après l'evenement appuyerFeu
+//on allume le feu en fonction de son etat
+void Feu:: afficher(QPainter *painter) const{
+    QPixmap *pixmap;
+    switch (m_etatFeu) {
+        case 0:pixmap = new QPixmap(":/images/feuEteint.png");
+            break;
+        case 1:pixmap = new QPixmap(":/images/feuVert.png");
+        break;
+        case 2:pixmap = new QPixmap(":/images/feuRouge.png");
+        break;
+
+    }
+     painter->drawPixmap(m_position->x(), m_position->y(), *pixmap);
+}
+
