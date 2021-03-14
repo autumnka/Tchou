@@ -194,26 +194,17 @@ void MainWindow::roulerTrain(QString direction)
 
     if (direction.size() > 1)
         train->setPosition(QPoint(xTrain, yTrain));
-
+    //on fait bouger le train case par case
     for (int i = 1; i < direction.size(); ++i)
     {
-        if (direction[i] == 'd')
-            xTrain += tPixCase;
-        else if (direction[i] == 'g')
-            xTrain -= tPixCase;
-        else if (direction[i] == 'h')
-            yTrain -= tPixCase;
-        else if (direction[i] == 'b')
-            yTrain += tPixCase;
-
-        train->setPosition(QPoint(xTrain, yTrain));
-        repaint();
+        train->rouler(direction[i],tPixCase);
+        repaint(); //repaint trop rapide
+        //ajouter un timer
     }
-
+    //si le chemin est valide on deplace le train un cran de plus
     if (direction[0]=='1')
     {
-        xTrain += (tPixCase - tPixTrain)/2 + tPixTrain;
-        train->setPosition(QPoint(xTrain, yTrain));
+        train->rouler('d',tPixCase);
         repaint();
     }
 
