@@ -11,6 +11,7 @@
         <file>feuEteint.jpg</file>
         <file>feuRouge.jpg</file>
         <file>feuVert.jpg</file>
+        <file>train.jpeg</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

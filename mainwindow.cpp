@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 
     grille = new Grille();
     feu = new Feu();
+    train = new Train();
 }
 
 // Créer les widgets pour quand la MainWindow est en mode paramatre
@@ -61,6 +62,16 @@ void MainWindow::button_jouer_clicked()
 {
     grille = new Grille(*posGrille, taillePixelGrille, tailleGrille);
 
+    // la taille du train = 0.6 fois taille d'une case
+    int tPixTrain = 0.6*taillePixelGrille/tailleGrille;
+
+    // permet de centrer en y la train par rapport au case
+    int yTrain = (taillePixelGrille/tailleGrille - tPixTrain)/2 + posGrille->y();
+    // permet de placer le train juste au bord
+    int xTrain = posGrille->x()-tPixTrain;
+
+    train = new Train(QPoint(xTrain,yTrain), QPoint(tPixTrain, tPixTrain));
+
     switchAffichage();
 }
 
@@ -75,13 +86,23 @@ void MainWindow::paintEvent(QPaintEvent *e)
     affichePartie();
 
     if (interfaceCourante == "partie")
+    {
         afficherFeu();
+        afficherTrain();
+    }
 }
 
 void MainWindow::afficherFeu()
 {
     QPainter *painter = new QPainter(this);
     feu->afficher(painter);
+    delete painter;
+}
+
+void MainWindow::afficherTrain()
+{
+    QPainter *painter = new QPainter(this);
+    train->afficher(painter);
     delete painter;
 }
 
@@ -146,43 +167,54 @@ void MainWindow::deplacerCase(QMouseEvent *me)
     }
     repaint();
 }
-//on appuie sur le bouton pour lancer le train normalement
-//mais pour l'instant c'est juste pour allumer le feu
-/*void MainWindow::on_AppuyerFeu_clicked()
-{
-    QPainter *painter = new QPainter(this);
-    //on verifie le chemin
-    //bool valide=(grille->verifierChemin()[0]).digitValue();
-    //on change l'etat du feu
-    //feu->allumer(valide);
-    //on allume le feu de la bonne couleur
-    //feu->afficher(painter);
-    //repaint();
-}
-*/
-
-/*void MainWindow::on_AppuyerFeu_clicked()
-{
-    QPainter *painter = new QPainter(this);
-    //on verifie le chemin
-    //bool valide=(grille->verifierChemin()[0]).digitValue();
-    //on change l'etat du feu
-    //feu->allumer(valide);
-    //on allume le feu de la bonne couleur
-    //feu->afficher(painter);
-    //repaint();
-}*/
 
 void MainWindow::on_buttonDemarrerTrain_clicked()
 {
     QString s = grille->verifierChemin();
     qDebug() << s;
-    bool valide = (s[0]=='1');
 
-    qDebug() << valide;
+    bool valide = (s[0]=='1');
     feu->allumer(valide);
     repaint();
+    roulerTrain(s);
+}
 
-    /*feu->allumer(true);
-    repaint();*/
+void MainWindow::roulerTrain(QString direction)
+{
+    // taille d'une case
+    int tPixCase = taillePixelGrille/tailleGrille;
+    // taille en pixel du train
+    int tPixTrain = train->getTaillePix().x();
+
+    // permet de centrer en y la train par rapport au case
+    int yTrain = (tPixCase - tPixTrain)/2 + posGrille->y();
+    // permet de centrer en y la train par rapport au case
+    int xTrain = (tPixCase - tPixTrain)/2 + posGrille->x();
+    // Si le train peut aller sur la première case on le met au milieu dessus
+
+    if (direction.size() > 1)
+        train->setPosition(QPoint(xTrain, yTrain));
+
+    for (int i = 1; i < direction.size(); ++i)
+    {
+        if (direction[i] == 'd')
+            xTrain += tPixCase;
+        else if (direction[i] == 'g')
+            xTrain -= tPixCase;
+        else if (direction[i] == 'h')
+            yTrain -= tPixCase;
+        else if (direction[i] == 'b')
+            yTrain += tPixCase;
+
+        train->setPosition(QPoint(xTrain, yTrain));
+        repaint();
+    }
+
+    if (direction[0]=='1')
+    {
+        xTrain += (tPixCase - tPixTrain)/2 + tPixTrain;
+        train->setPosition(QPoint(xTrain, yTrain));
+        repaint();
+    }
+
 }

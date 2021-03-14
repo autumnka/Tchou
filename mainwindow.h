@@ -10,6 +10,7 @@
 #include "ui_aide.h"
 #include "grille.h"
 #include "feu.h"
+#include "train.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -32,7 +33,11 @@ public:
 
     void AllumerFeu();
 
+    void afficherTrain();
+
     void deplacerCase(QMouseEvent *me);
+
+    void roulerTrain(QString direction);
 
 private slots:
     void on_button_aide_clicked();
@@ -61,6 +66,7 @@ private:
     Grille *grille;
 
     Feu* feu;
+    Train *train;
 
 };
 #endif // MAINWINDOW_H
