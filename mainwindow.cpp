@@ -4,6 +4,7 @@
 #include "ui_aide.h"
 #include <QtGui>
 #include <QRadioButton>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -14,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     interfaceCourante = "parametre";
 
     grille = new Grille();
+    feu = new Feu();
 }
 
 // Créer les widgets pour quand la MainWindow est en mode paramatre
@@ -49,7 +51,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_pushButton_2_clicked()
+void MainWindow::on_button_aide_clicked()
 {
     Aide a(this);
     a.exec();
@@ -57,19 +59,9 @@ void MainWindow::on_pushButton_2_clicked()
 
 void MainWindow::button_jouer_clicked()
 {
+    grille = new Grille(*posGrille, taillePixelGrille, tailleGrille);
+
     switchAffichage();
-    jouer();
-}
-
-void MainWindow::jouer()
-{
-    grille = new Grille(*posGrille, taillePixelGrille, QPoint(0,0), QPoint(0, 0), tailleGrille);
-
-    //Case *c = grille->getMatrice()[0][0];
-
-    //grille->deplacer(*c);
-
-    repaint();
 }
 
 void MainWindow::switchAffichage()
@@ -81,6 +73,16 @@ void MainWindow::switchAffichage()
 void MainWindow::paintEvent(QPaintEvent *e)
 {
     affichePartie();
+
+    if (interfaceCourante == "partie")
+        afficherFeu();
+}
+
+void MainWindow::afficherFeu()
+{
+    QPainter *painter = new QPainter(this);
+    feu->afficher(painter);
+    delete painter;
 }
 
 void MainWindow::affichePartie()
@@ -92,10 +94,7 @@ void MainWindow::affichePartie()
     {
         interfac = false;
         afficherGrille();
-        //QPainter *painter = new QPainter(this);
-        //feu->afficher(painter);
     }
-
     ui->centralwidget->setVisible(!interfac);
     for (int i=0; i<4; i++)
         this->list_widget_parametre_window[i]->setVisible(interfac);
@@ -117,9 +116,16 @@ void MainWindow::afficherGrille()
 {
     QPainter *painter = new QPainter(this);
     grille->afficher(painter);
+    delete painter;
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *me)
+{
+    if (interfaceCourante == "partie")
+        deplacerCase(me);
+}
+
+void MainWindow::deplacerCase(QMouseEvent *me)
 {
     QPoint p=me->pos();
 
@@ -140,11 +146,9 @@ void MainWindow::mousePressEvent(QMouseEvent *me)
     }
     repaint();
 }
-
-
 //on appuie sur le bouton pour lancer le train normalement
 //mais pour l'instant c'est juste pour allumer le feu
-void MainWindow::on_AppuyerFeu_clicked()
+/*void MainWindow::on_AppuyerFeu_clicked()
 {
     QPainter *painter = new QPainter(this);
     //on verifie le chemin
@@ -154,4 +158,31 @@ void MainWindow::on_AppuyerFeu_clicked()
     //on allume le feu de la bonne couleur
     //feu->afficher(painter);
     //repaint();
+}
+*/
+
+/*void MainWindow::on_AppuyerFeu_clicked()
+{
+    QPainter *painter = new QPainter(this);
+    //on verifie le chemin
+    //bool valide=(grille->verifierChemin()[0]).digitValue();
+    //on change l'etat du feu
+    //feu->allumer(valide);
+    //on allume le feu de la bonne couleur
+    //feu->afficher(painter);
+    //repaint();
+}*/
+
+void MainWindow::on_buttonDemarrerTrain_clicked()
+{
+    QString s = grille->verifierChemin();
+    qDebug() << s;
+    bool valide = (s[0]=='1');
+
+    qDebug() << valide;
+    feu->allumer(valide);
+    repaint();
+
+    /*feu->allumer(true);
+    repaint();*/
 }

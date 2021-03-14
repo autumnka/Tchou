@@ -23,20 +23,27 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    void jouer();
     void switchAffichage();
+
     void affichePartie();
     void afficherGrille();
+
+    void afficherFeu();
+
     void AllumerFeu();
 
+    void deplacerCase(QMouseEvent *me);
+
 private slots:
-    void on_pushButton_2_clicked();
+    void on_button_aide_clicked();
     void button_jouer_clicked();
     void mousePressEvent(QMouseEvent *me);
     void selectionnerNiv1();
     void selectionnerNiv2();
 
-    void on_AppuyerFeu_clicked();
+
+
+    void on_buttonDemarrerTrain_clicked();
 
 private:
     Ui::MainWindow *ui;

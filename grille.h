@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QObject>
 #include <QWidget>
+#include <vector>
 
 #include "case.h"
 #include "caserail.h"
@@ -13,14 +14,14 @@ class Grille
 {
     public:
         Grille();
-        Grille(QPoint pos, int tailleEnPix,QPoint entree, QPoint sortie, int nb_case);
+        Grille(QPoint pos, int tailleEnPix,int nb_case);
         // Constructeur qui utilise un fichier pour generer une grille aleatoire
         // a partir d'un fichier de grille existant
         //Grille(QPoint pos, QPoint entree, QPoint sortie, int nb_case, QString nomFicher);
 
         QString verifierChemin();
-        bool sontConnecter(const CaseRail &c1, const CaseRail &c2);
-        CaseRail** caseVoisine(const CaseRail &c);
+        QChar sontConnecter(QPoint posCour, QPoint posSuiv);
+        std::vector<QPoint> PosVoisine(QPoint pos);
         QChar directionDeplacement(const CaseRail &c1, const CaseRail &c2);
         void deplacer(Case &c);
 
@@ -34,8 +35,6 @@ class Grille
     private:
 
         QPoint pos;
-        QPoint *entree= new QPoint(150,50);
-        QPoint *sortie= new QPoint(650,550);
         int tailleEnPix;
         int nb_case;
         Case ***matrice_case;

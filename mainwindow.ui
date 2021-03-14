@@ -54,7 +54,7 @@
      <enum>QFrame::Raised</enum>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="buttonDemarrerTrain">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -67,20 +67,7 @@
      <string>Démarrer</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>670</x>
-      <y>50</y>
-      <width>76</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Feux</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="button_aide">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -132,27 +119,12 @@
      <string>Partie de TchouTchou</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="AppuyerFeu">
-    <property name="geometry">
-     <rect>
-      <x>670</x>
-      <y>140</y>
-      <width>80</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>AppuyerFeu</string>
-    </property>
-   </widget>
    <zorder>frame</zorder>
-   <zorder>pushButton</zorder>
-   <zorder>label</zorder>
+   <zorder>buttonDemarrerTrain</zorder>
    <zorder>label_2</zorder>
    <zorder>label_3</zorder>
-   <zorder>pushButton_2</zorder>
+   <zorder>button_aide</zorder>
    <zorder>label_4</zorder>
-   <zorder>AppuyerFeu</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -160,7 +132,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>29</height>
     </rect>
    </property>
   </widget>

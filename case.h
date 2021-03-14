@@ -21,6 +21,7 @@ class Case
         virtual void afficher(QPainter *painter) const = 0;
 
     protected:
+        // position en pixel
         QPoint m_p;
         int m_typeCase;
         int m_taille;

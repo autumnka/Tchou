@@ -1,5 +1,9 @@
 #include "feu.h"
 
+Feu::Feu()
+{
+
+}
 Feu::Feu(QPoint position, int etat)
 {
     m_position=new QPoint(position);
@@ -28,14 +32,14 @@ void Feu::eteindre(){
 void Feu:: afficher(QPainter *painter) const{
     QPixmap *pixmap;
     switch (m_etatFeu) {
-        case 0:pixmap = new QPixmap(":/images/feuEteint.png");
+        case 0:pixmap = new QPixmap(":/images/feuEteint.jpg");
             break;
-        case 1:pixmap = new QPixmap(":/images/feuVert.png");
+        case 1:pixmap = new QPixmap(":/images/feuVert.jpg");
         break;
-        case 2:pixmap = new QPixmap(":/images/feuRouge.png");
+        case 2:pixmap = new QPixmap(":/images/feuRouge.jpg");
         break;
 
     }
-     painter->drawPixmap(m_position->x(), m_position->y(), *pixmap);
+     painter->drawPixmap(m_position->x(), m_position->y(), 90, 200,*pixmap);
 }
 
