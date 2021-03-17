@@ -5,13 +5,14 @@
 #include <QObject>
 #include <QWidget>
 #include <QPainter>
+//#include <QChar>
 
 class Train
 {
     public:
         Train();
         Train(QPoint position, QPoint taille);
-        void rouler(char direction);
+        void rouler(QChar direction, int pas);
         void afficher(QPainter *painter);
         QPoint getPosition();
         void setPosition(QPoint a);

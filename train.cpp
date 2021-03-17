@@ -18,17 +18,17 @@ void Train::afficher(QPainter *painter)
     //painter->drawPixmap(m_position.x(), m_position.y(), 100, 100, *pixmap);
     delete pixmap;
 }
-
-void Train::rouler(char direction){
+//on rajoute le pas en parametre
+void Train::rouler(QChar direction, int pas){
     QPoint p=getPosition();
-    switch(direction){
-        case 'h':p.ry()--;
+    switch(direction.unicode()){
+        case 'h':p.setY(p.y()-pas);
         break;
-        case 'b':p.ry()++;
+        case 'b':p.setY(p.y()+pas);
         break;
-        case 'g':p.rx()--;
+        case 'g':p.setX(p.x()-pas);
         break;
-        case 'd':p.rx()++;
+        case 'd':p.setX(p.x()+pas);
         break;
     }
     this->setPosition(p);
