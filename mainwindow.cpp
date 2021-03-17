@@ -5,6 +5,7 @@
 #include <QtGui>
 #include <QRadioButton>
 #include <QDebug>
+#include <QTimer>
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -195,10 +196,17 @@ void MainWindow::roulerTrain(QString direction)
     if (direction.size() > 1)
         train->setPosition(QPoint(xTrain, yTrain));
     //on fait bouger le train case par case
+    QTimer *timer = new QTimer(this);
+     timer->setInterval( 1000 );
     for (int i = 1; i < direction.size(); ++i)
     {
+        //startTimer(10000);
+        timer->start(1000);
+        //connect(timer,SIGNAL(timeout()),this,SLOT (train->rouler(direction[i],tPixCase)));
         train->rouler(direction[i],tPixCase);
-        repaint(); //repaint trop rapide
+        //timer->stop();
+        connect(timer,SIGNAL(timeout()),this,SLOT (repaint()));
+        //repaint(); //repaint trop rapide
         //ajouter un timer
     }
     //si le chemin est valide on deplace le train un cran de plus
@@ -207,5 +215,4 @@ void MainWindow::roulerTrain(QString direction)
         train->rouler('d',tPixCase);
         repaint();
     }
-
 }
