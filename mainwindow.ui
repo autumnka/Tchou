@@ -119,12 +119,26 @@
      <string>Partie de TchouTchou</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="Retour">
+    <property name="geometry">
+     <rect>
+      <x>19</x>
+      <y>511</y>
+      <width>101</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Retour</string>
+    </property>
+   </widget>
    <zorder>frame</zorder>
    <zorder>buttonDemarrerTrain</zorder>
    <zorder>label_2</zorder>
    <zorder>label_3</zorder>
    <zorder>button_aide</zorder>
    <zorder>label_4</zorder>
+   <zorder>Retour</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -132,7 +146,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>29</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

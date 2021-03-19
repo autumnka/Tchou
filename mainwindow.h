@@ -26,6 +26,7 @@ public:
 
     void switchAffichage();
 
+    void afficherTchou(QPainter* painter) const;
     void affichePartie();
     void afficherGrille();
 
@@ -43,12 +44,15 @@ private slots:
     void on_button_aide_clicked();
     void button_jouer_clicked();
     void mousePressEvent(QMouseEvent *me);
+    void mouseMoveEvent(QMouseEvent *event);
     void selectionnerNiv1();
     void selectionnerNiv2();
 
 
 
     void on_buttonDemarrerTrain_clicked();
+
+    void on_Retour_clicked();
 
 private:
     Ui::MainWindow *ui;

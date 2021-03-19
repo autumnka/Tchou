@@ -46,6 +46,18 @@ Grille::Grille(QPoint pos, int tailleEnPix,int nb_case)
         matrice_case[1][2] = new CaseRail(1, QPoint(pos.x()+2*t_c, pos.y()+t_c), t_c);
     }
 }
+
+/*Grille* Grille::GrilleAleatoire(QPoint pos, int tailleEnPix,int nb_case)
+{
+    int randomY, randomX;
+    //on attribue à chaque case Rail courbe un point aleatoire
+    do{
+        randomX = qrand() % nb_case-1;
+        randomY = qrand() % nb_case-1;
+    }(while(matrice_case->contains(QPoint(randomX,randomY))));
+
+}*/
+
 void Grille::afficher(QPainter *p)
 {
     for (int i = 0; i<nb_case; ++i)

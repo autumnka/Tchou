@@ -6,6 +6,11 @@
 #include <QRadioButton>
 #include <QDebug>
 #include <QTimer>
+#include <chrono>
+#include <thread>
+#include <QRect>
+
+using namespace std;
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -29,18 +34,19 @@ void MainWindow::setUpParametreWindow()
     jouer->move(600, 500);
 
     QLabel *niv = new QLabel("Choisir le niveau ", this);
-    niv->move(100, 300);
+    niv->move(100, 400);
     niv->setFixedWidth(200);
 
     QRadioButton *niv1 = new QRadioButton("Facile", this);
     QRadioButton *niv2 = new QRadioButton("Difficile", this);
-    niv1->move(100, 400);
-    niv2->move(300, 400);
+    niv1->move(100, 500);
+    niv2->move(300, 500);
 
     list_widget_parametre_window[0] = jouer;
     list_widget_parametre_window[1] = niv;
     list_widget_parametre_window[2] = niv1;
     list_widget_parametre_window[3] = niv2;
+
 
     QObject::connect(jouer, SIGNAL(clicked()), this, SLOT(button_jouer_clicked()));
 
@@ -78,7 +84,10 @@ void MainWindow::button_jouer_clicked()
 
 void MainWindow::switchAffichage()
 {
-    interfaceCourante = "partie";
+    if (interfaceCourante == "parametre")
+        interfaceCourante = "partie";
+    else
+        interfaceCourante = "parametre";
     repaint();
 }
 
@@ -91,6 +100,11 @@ void MainWindow::paintEvent(QPaintEvent *e)
         afficherFeu();
         afficherTrain();
     }
+}
+//affiche l'image principale sur l'interface de Configuration
+void MainWindow::afficherTchou(QPainter *painter) const{
+    QPixmap *pixmap= new QPixmap(":/images/petitTrain.jpg");
+    painter->drawPixmap(200,30, 450, 300,*pixmap);
 }
 
 void MainWindow::afficherFeu()
@@ -109,9 +123,12 @@ void MainWindow::afficherTrain()
 
 void MainWindow::affichePartie()
 {
+    QPainter *painter = new QPainter(this);
     bool interfac=true;
-    if (interfaceCourante =="parametre")
+    if (interfaceCourante =="parametre"){
         interfac = true;
+        afficherTchou(painter);
+    }
     else
     {
         interfac = false;
@@ -120,6 +137,7 @@ void MainWindow::affichePartie()
     ui->centralwidget->setVisible(!interfac);
     for (int i=0; i<4; i++)
         this->list_widget_parametre_window[i]->setVisible(interfac);
+     delete painter;
 }
 
 void MainWindow::selectionnerNiv1()
@@ -139,6 +157,27 @@ void MainWindow::afficherGrille()
     QPainter *painter = new QPainter(this);
     grille->afficher(painter);
     delete painter;
+}
+//pour mettre en surbrillance la case sur laquelle on passe
+void MainWindow::mouseMoveEvent(QMouseEvent *event){
+    QPoint p=event->pos();
+    QPainter *painter;
+    for(int i=0;i<grille->getNbCase();i++)
+    {
+        for(int j=0;j<grille->getNbCase();j++)
+        {
+            Case *c=grille->getMatrice()[i][j];
+            int x = c->getPosition().x();
+            int y = c->getPosition().y();
+            if (p.x()>=x && p.x()<=x+c->getTaille() && p.y()>=y && p.y()<=y+c->getTaille()){
+                QRect rectangle(x,y,c->getTaille(),c->getTaille());
+                QMargins m(10,10,10,10);
+                rectangle.marginsAdded(m);
+                painter->drawRoundedRect(rectangle,10,10);
+            }
+        }
+    }
+    repaint();
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *me)
@@ -186,33 +225,69 @@ void MainWindow::roulerTrain(QString direction)
     int tPixCase = taillePixelGrille/tailleGrille;
     // taille en pixel du train
     int tPixTrain = train->getTaillePix().x();
-
     // permet de centrer en y la train par rapport au case
     int yTrain = (tPixCase - tPixTrain)/2 + posGrille->y();
     // permet de centrer en y la train par rapport au case
     int xTrain = (tPixCase - tPixTrain)/2 + posGrille->x();
     // Si le train peut aller sur la première case on le met au milieu dessus
 
-    if (direction.size() > 1)
+    int k=0;
+    int courbe=0;
+    int inter=20; //nombre de subdivision du pas du train
+    if (direction.size() > 1){
         train->setPosition(QPoint(xTrain, yTrain));
+        repaint();
+    }
     //on fait bouger le train case par case
-    QTimer *timer = new QTimer(this);
-     timer->setInterval( 1000 );
     for (int i = 1; i < direction.size(); ++i)
     {
-        //startTimer(10000);
-        timer->start(1000);
-        //connect(timer,SIGNAL(timeout()),this,SLOT (train->rouler(direction[i],tPixCase)));
-        train->rouler(direction[i],tPixCase);
-        //timer->stop();
-        connect(timer,SIGNAL(timeout()),this,SLOT (repaint()));
-        //repaint(); //repaint trop rapide
-        //ajouter un timer
+        //pour toutes cases, on commence par avancer dans la direction indiquee
+        for (int j = 1; j < 3*inter/4; ++j)
+        {
+            //on afit une pause entre chaque deplcement du train
+            this_thread::sleep_for(chrono::milliseconds(1000/inter));
+            train->rouler(direction[i],tPixCase/inter);
+            repaint();
+        }
+        //on continue si on suit la meme direction que precedemment
+        if(direction[i]==direction[i+1]){
+            for (int j = 3*inter/4; j < inter; ++j)
+            {
+            this_thread::sleep_for(chrono::milliseconds(1000/inter));
+            train->rouler(direction[i],tPixCase/inter);
+            repaint();
+            }
+        }
+        //on va effectuer une trajectoire courbe pour epouser la forme du rail
+        else{
+            for (int j = 3*inter/4; j < inter; ++j)
+            {
+                this_thread::sleep_for(chrono::milliseconds(1000/inter));
+                //on calcule le prochain point pour approximer une courbe
+                k=1+j-3*inter/4;
+                //courbe=acos(1-sin(j*tPixCase/(2*inter)));
+
+                //on se déplace selon l'axe de la premiere direction
+                train->rouler(direction[i],tPixCase/(2*inter*k));
+                //on se deplace dans l'axe de la 2 eme direction
+                train->rouler(direction[i+1],k*tPixCase/(2*inter));//on anticipe le futur déplacemnt
+                repaint();
+            }
+        }
     }
     //si le chemin est valide on deplace le train un cran de plus
     if (direction[0]=='1')
     {
-        train->rouler('d',tPixCase);
-        repaint();
+        for (int j = 1; j < inter/4; ++j)
+        {
+            this_thread::sleep_for(chrono::milliseconds(1000/inter));
+            train->rouler('d',tPixCase/inter);
+            repaint();
+        }
     }
+}
+
+void MainWindow::on_Retour_clicked()
+{
+    switchAffichage();
 }
