@@ -6,6 +6,11 @@
 #include <QWidget>
 #include <vector>
 
+#include <QTime>
+#include<QRandomGenerator>
+#include <QDateTime>
+#include <iostream>
+
 #include "case.h"
 #include "caserail.h"
 #include "casevide.h"
@@ -18,7 +23,7 @@ class Grille
         // Constructeur qui utilise un fichier pour generer une grille aleatoire
         // a partir d'un fichier de grille existant
         //Grille(QPoint pos, QPoint entree, QPoint sortie, int nb_case, QString nomFicher);
-
+        //Grille* GrilleAleatoire(QPoint pos, int tailleEnPix,int nb_case);
         QString verifierChemin();
         QChar sontConnecter(QPoint posCour, QPoint posSuiv);
         std::vector<QPoint> PosVoisine(QPoint pos);
