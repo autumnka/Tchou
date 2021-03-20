@@ -10,17 +10,17 @@ void CaseRail:: afficher(QPainter *painter) const{
     QPixmap *pixmap;
     switch (m_typeCase)
     {
-        case 1: pixmap = new QPixmap(":/images/rail_horizontal.png");
+        case 1: pixmap = new QPixmap(":/images/RailHorizontale.jpg");
             break;
-        case 2: pixmap = new QPixmap(":/images/rail_vertical.png");
+        case 2: pixmap = new QPixmap(":/images/RailVerticale.jpg");
             break;
-        case 3: pixmap = new QPixmap(":/images/rail_courbe1.jpg");
+        case 3: pixmap = new QPixmap(":/images/RailCourbeHD.jpg");
             break;
-        case 4: pixmap = new QPixmap(":/images/rail_courbe3.jpg");
+        case 4: pixmap = new QPixmap(":/images/RailCourbeBD.jpg");
             break;
-        case 5: pixmap = new QPixmap(":/images/rail_courbe4.jpg");
+        case 5: pixmap = new QPixmap(":/images/RailCourbeGB.jpg");
             break;
-        case 6: pixmap = new QPixmap(":/images/rail_courbe2.jpg");
+        case 6: pixmap = new QPixmap(":/images/RailCourbeGH.jpg");
     }
 
     painter->drawPixmap(m_p.x(), m_p.y(), m_taille, m_taille, *pixmap);

@@ -4,15 +4,18 @@
         <file>testimage.jpeg</file>
         <file>rail_vertical.png</file>
         <file>rail_horizontal.png</file>
-        <file>rail_courbe4.jpg</file>
-        <file>rail_courbe3.jpg</file>
-        <file>rail_courbe2.jpg</file>
-        <file>rail_courbe1.jpg</file>
         <file>feuEteint.jpg</file>
         <file>feuRouge.jpg</file>
         <file>feuVert.jpg</file>
-        <file>train.jpeg</file>
         <file>petitTrain.jpg</file>
+        <file>train.png</file>
+        <file>Vide.jpg</file>
+        <file>RailCourbeBD.jpg</file>
+        <file>RailCourbeGB.jpg</file>
+        <file>RailCourbeGH.jpg</file>
+        <file>RailCourbeHD.jpg</file>
+        <file>RailHorizontale.jpg</file>
+        <file>RailVerticale.jpg</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

@@ -38,6 +38,3 @@ void Case::echanger(Case &c)
     m_p = c.m_p;
     c.setPosition(tempo);
 }
-
-//appelle la fonction afficher des sous classes
-//void Case::afficher(){}

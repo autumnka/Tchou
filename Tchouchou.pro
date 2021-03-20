@@ -18,6 +18,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     partie.cpp \
+    resultat.cpp \
     train.cpp
 
 HEADERS += \
@@ -29,11 +30,13 @@ HEADERS += \
     grille.h \
     mainwindow.h \
     partie.h \
+    resultat.h \
     train.h
 
 FORMS += \
     aide.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    resultat.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
