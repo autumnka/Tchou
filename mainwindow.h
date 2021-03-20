@@ -4,9 +4,11 @@
 #include <QMainWindow>
 #include <QtGui>
 #include <QRadioButton>
+//#include<QGroupBox>
 
 #include "ui_mainwindow.h"
 #include "aide.h"
+#include"resultat.h"
 #include "ui_aide.h"
 #include "grille.h"
 #include "feu.h"
@@ -38,16 +40,20 @@ public:
 
     void deplacerCase(QMouseEvent *me);
 
-    void roulerTrain(QString direction);
+    void roulerTrain(QString direction, int v);
+
+    void afficherResultat(int g);
 
 private slots:
     void on_button_aide_clicked();
     void button_jouer_clicked();
     void mousePressEvent(QMouseEvent *me);
-    void mouseMoveEvent(QMouseEvent *event);
+    //void mouseMoveEvent(QMouseEvent *event);
     void selectionnerNiv1();
     void selectionnerNiv2();
-
+    void selectionnerVit1();
+    void selectionnerVit2();
+    void selectionnerVit3();
 
 
     void on_buttonDemarrerTrain_clicked();
@@ -60,9 +66,13 @@ private:
 
     void setUpParametreWindow();
     QWidget **list_widget_parametre_window;
+    QWidget **list_widget_parametre_vitesse;
+    //QGroupBox *g1;
+    //QGroupBox *g2;
 
     QString interfaceCourante; // soit "parametre", soit "partie"
 
+    int vitesseTrain=1;
     int tailleGrille=2; // Le nombre de case de la grille
     int taillePixelGrille=500;
     //coordonnee du coin en haut a gauche

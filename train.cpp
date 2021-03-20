@@ -13,7 +13,7 @@ Train::Train(QPoint position, QPoint taille)
 
 void Train::afficher(QPainter *painter)
 {
-    QPixmap *pixmap = new QPixmap(":/images/train.jpeg");
+    QPixmap *pixmap = new QPixmap(":/images/train.png");
     painter->drawPixmap(m_position.x(), m_position.y(), taillePixel.x(), taillePixel.y(), *pixmap);
     //painter->drawPixmap(m_position.x(), m_position.y(), 100, 100, *pixmap);
     delete pixmap;
