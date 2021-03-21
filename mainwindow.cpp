@@ -90,8 +90,8 @@ void MainWindow::button_jouer_clicked()
 {
     grille = new Grille(*posGrille, taillePixelGrille, tailleGrille);
 
-    // la taille du train = 0.6 fois taille d'une case
-    int tPixTrain = 0.6*taillePixelGrille/tailleGrille;
+    // la taille du train = 0.3 fois taille d'une case
+    int tPixTrain = 0.3*taillePixelGrille/tailleGrille;
 
     // permet de centrer en y la train par rapport au case
     int yTrain = (taillePixelGrille/tailleGrille - tPixTrain)/2 + posGrille->y();
@@ -264,76 +264,97 @@ void MainWindow::roulerTrain(QString direction, int v)
     // permet de centrer en y la train par rapport au case
     int yTrain = (tPixCase - tPixTrain)/2 + posGrille->y();
     // permet de centrer en y la train par rapport au case
-    int xTrain = (tPixCase - tPixTrain)/2 + posGrille->x();
+    //int xTrain = (tPixCase - tPixTrain)/2 + posGrille->x();
+    int xTrain = posGrille->x();
     // Si le train peut aller sur la première case on le met au milieu dessus
 
     int k=0;
-    //int courbe=0;
     int inter=20; //nombre de subdivision du pas du train
+    //on teste si le train peut commencer a avancer
     if (direction.size() > 1){
+        //on positionne le train sur le départ
         train->setPosition(QPoint(xTrain, yTrain));
         repaint();
-    }
-    //on fait bouger le train case par case
-    for (int i = 1; i < direction.size(); ++i)
-    {
-        //pour toutes cases, on commence par avancer dans la direction indiquee
-        for (int j = 1; j < 3*inter/4; ++j)
-        {
-            //on fait une pause entre chaque deplcement du train
-            this_thread::sleep_for(chrono::milliseconds(1000/(inter*v*v)));
-            train->rouler(direction[i],tPixCase/inter);
-            repaint();
+        //on ajoute la direction de l'arrivee pour ne pas avoir de probleme a l'anticiper
+        //seulement si le trajet est bon
+        if(direction[0]=='1') direction=direction+'d';
+        qDebug() <<"voyage"<< direction;
+        //Debut de la trajectoire du train
+        if(direction[1]=='d'){
+            //on commence à rouler tout droit
+            qDebug() << "DEBUT:rail droit";
+            for (int j = 1; j < inter; ++j)
+            {
+                this_thread::sleep_for(chrono::milliseconds(1000/(inter*v*v)));
+                train->rouler('d',tPixCase/(inter));
+                repaint();
+            }
         }
-        //on continue si on suit la meme direction que precedemment
-
-        if(i<direction.size()-1){
+        else{
+            //on va effectuer une trajectoire courbe pour epouser la forme du rail
+             qDebug() << "DEBUT:rail courbe("<<direction[0]<<",d)";
+            for (int j = 1; j < inter/2; ++j)
+            {
+                this_thread::sleep_for(chrono::milliseconds(1000/(inter*v*v)));
+                k=j;
+                //on se déplace selon l'axe de la premiere direction
+                //train->rouler('d',tPixCase/(inter));
+                train->rouler('d',6*tPixCase/(5*inter));
+                //on se deplace dans l'axe de la 2 eme direction
+                //train->rouler(direction[1],tPixCase/(inter));//on anticipe le futur déplacemnt
+                train->rouler(direction[1],k*k*tPixCase/(inter*20));
+                repaint();
+            }
+        }
+        //on fait bouger le train case par case
+        for (int i = 1; i < direction.size()-1; ++i)
+        {
+            //pour toutes cases, on commence par avancer dans la direction indiquee
             qDebug() << "test direction"<<i;
             if(direction[i]==direction[i+1]){
+                //on continue si on suit la meme direction que precedemment
                 qDebug() << "rail droit";
-                for (int j = 3*inter/4; j < inter; ++j)
+                for (int j = 1; j < inter; ++j)
                 {
-                this_thread::sleep_for(chrono::milliseconds(1000/(inter*v*v)));
-                train->rouler(direction[i],tPixCase/inter);
-                repaint();
+                    this_thread::sleep_for(chrono::milliseconds(1000/(inter*v*v)));
+                    train->rouler(direction[i],tPixCase/(inter));
+                    repaint();
                 }
             }
             //on va effectuer une trajectoire courbe pour epouser la forme du rail
             else{
                  qDebug() << "rail courbe("<<direction[i]<<","<<direction[i+1]<<")";
-                for (int j = 3*inter/4; j < inter; ++j)
+                for (int j = 1; j < inter/2; ++j)
                 {
                     this_thread::sleep_for(chrono::milliseconds(1000/(inter*v*v)));
                     //on calcule le prochain point pour approximer une courbe
-                    k=1+j-3*inter/4;
-                    //courbe=acos(1-sin(j*tPixCase/(2*inter)));
+                    k=j;
 
                     //on se déplace selon l'axe de la premiere direction
-                    //train->rouler(direction[i],tPixCase/(2*inter*k));
-                    train->rouler(direction[i],tPixCase/(2*inter));
+                    //train->rouler(direction[i],tPixCase/(inter));
+                    train->rouler(direction[i],6*tPixCase/(7*inter));
                     //on se deplace dans l'axe de la 2 eme direction
-                   // train->rouler(direction[i+1],k*tPixCase/(2*inter));//on anticipe le futur déplacemnt
-                    train->rouler(direction[i+1],tPixCase/(2*inter));
+                    //train->rouler(direction[i+1],tPixCase/(inter));//on anticipe le futur déplacemnt
+                    train->rouler(direction[i+1],k*k*tPixCase/(inter*20));
                     repaint();
                      qDebug() << k;
                 }
             }
         }
-    }
-    //si le chemin est valide on deplace le train un cran de plus
-    if (direction[0]=='1')
-    {
-         qDebug() << "on sort";
-        for (int j = 1; j < inter; ++j)
+        //si le chemin est valide on deplace le train un cran de plus pour atteindre l'arrivee
+        if (direction[0]=='1')
         {
-            qDebug() << j;
-            this_thread::sleep_for(chrono::milliseconds(1000/(inter*v*v)));
-            train->rouler('d',tPixCase/inter);
-            repaint();
+             qDebug() << "on sort";
+            for (int j = 1; j < inter/4; ++j)
+            {
+                qDebug() << j;
+                this_thread::sleep_for(chrono::milliseconds(1000/(inter*v*v)));
+                train->rouler('d',tPixCase/inter);
+                repaint();
+            }
         }
-
+        afficherResultat(direction[0].digitValue());
     }
-    afficherResultat(direction[0].unicode());
 }
 
 void MainWindow::on_Retour_clicked()
@@ -344,6 +365,7 @@ void MainWindow::on_Retour_clicked()
 void MainWindow::afficherResultat(int g){
     //on teste si le joueur a gagné
     Resultat r(this);
+    qDebug()<<"RESULTAT:"<<g;
     if(g==1){
         r.exec();//pour l'instant ça affiche juste la même fenêtre que si Perdu
         qDebug() << "TU GAGNES!!!";
