@@ -30,8 +30,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 // Créer les widgets pour quand la MainWindow est en mode paramatre
 void MainWindow::setUpParametreWindow()
 {
-    list_widget_parametre_window = new QWidget*[4];
-    //g1=new QGroupBox[4];
+    list_widget_parametre_window = new QWidget*[6];
+
     QPushButton *jouer = new QPushButton("jouer ! ", this);
     jouer->move(600, 500);
 
@@ -39,32 +39,38 @@ void MainWindow::setUpParametreWindow()
     niv->move(100, 350);
     niv->setFixedWidth(200);
 
-    QRadioButton *niv1 = new QRadioButton("Facile", this);
-    QRadioButton *niv2 = new QRadioButton("Difficile", this);
-    niv1->move(100, 400);
-    niv2->move(300, 400);
+    // On créer le groupe de radioButton pour la selection du niveau
+    QWidget *selectNiv = new QWidget(this);
+    selectNiv->setGeometry(100, 400, 300, 50);
 
-    list_widget_parametre_window[0] = jouer;
-    list_widget_parametre_window[1] = niv;
-    list_widget_parametre_window[2] = niv1;
-    list_widget_parametre_window[3] = niv2;
+    QRadioButton *niv1 = new QRadioButton("Facile", selectNiv);
+    niv1->setChecked(true);
+    QRadioButton *niv2 = new QRadioButton("Difficile", selectNiv);
+    niv2->move(100, 0);
 
-    list_widget_parametre_vitesse = new QWidget*[4];
-    //g2=new QGroupBox[4];
     QLabel *vitesse = new QLabel("Choisir la vitesse du train ", this);
     vitesse->move(100, 450);
     vitesse->setFixedWidth(200);
-    QRadioButton *vitesse1 = new QRadioButton("Lent", this);
-    QRadioButton *vitesse2= new QRadioButton("Modéré", this);
-    QRadioButton *vitesse3 = new QRadioButton("Rapide", this);
-    vitesse1->move(100, 500);
-    vitesse2->move(200, 500);
-    vitesse3->move(300, 500);
 
-    list_widget_parametre_vitesse[0] = vitesse;
-    list_widget_parametre_vitesse[1] = vitesse1;
-    list_widget_parametre_vitesse[2] = vitesse2;
-    list_widget_parametre_vitesse[3] = vitesse3;
+
+    //On créer le groupe de widget pour la selection de la vitesse
+    QWidget *selectVitesse = new QWidget(this);
+    selectVitesse->setGeometry(100, 500, 300, 50);
+
+
+    QRadioButton *vitesse1 = new QRadioButton("Lent", selectVitesse);
+    vitesse1->setChecked(true);
+    QRadioButton *vitesse2= new QRadioButton("Modéré", selectVitesse);
+    QRadioButton *vitesse3 = new QRadioButton("Rapide", selectVitesse);
+    vitesse2->move(100, 0);
+    vitesse3->move(200, 0);
+
+    // liste pour stocker les widget de la l'interface
+    list_widget_parametre_window[0] = jouer;
+    list_widget_parametre_window[1] = niv;
+    list_widget_parametre_window[2] = vitesse;
+    list_widget_parametre_window[3] = selectNiv;
+    list_widget_parametre_window[4] = selectVitesse;
 
     QObject::connect(jouer, SIGNAL(clicked()), this, SLOT(button_jouer_clicked()));
     QObject::connect(niv1, SIGNAL(clicked()), this, SLOT(selectionnerNiv1()));
@@ -156,9 +162,9 @@ void MainWindow::affichePartie()
         afficherGrille();
     }
     ui->centralwidget->setVisible(!interfac);
-    for (int i=0; i<4; i++){
+    for (int i=0; i<5; i++){
         this->list_widget_parametre_window[i]->setVisible(interfac);
-        this->list_widget_parametre_vitesse[i]->setVisible(interfac);
+        //this->list_widget_parametre_vitesse[i]->setVisible(interfac);
     }
      delete painter;
 }
@@ -286,6 +292,10 @@ void MainWindow::roulerTrain(QString direction, int v)
             for (int j = 1; j < inter; ++j)
             {
                 this_thread::sleep_for(chrono::milliseconds(1000/(inter*v*v)));
+                qDebug() << inter;
+                qDebug() << v*v*inter;
+
+
                 train->rouler('d',tPixCase/(inter));
                 repaint();
             }
@@ -364,14 +374,10 @@ void MainWindow::on_Retour_clicked()
 
 void MainWindow::afficherResultat(int g){
     //on teste si le joueur a gagné
-    Resultat r(this);
-    qDebug()<<"RESULTAT:"<<g;
-    if(g==1){
-        r.exec();//pour l'instant ça affiche juste la même fenêtre que si Perdu
-        qDebug() << "TU GAGNES!!!";
-    }
-    else{
-        r.exec();
-        qDebug() << "TU A PERDU!!!";
-    }
+    bool res = false;
+    if (g==1)
+        res = true;
+
+    Resultat r(res, this);
+    r.exec();
 }

@@ -16,6 +16,7 @@
         <file>RailCourbeHD.jpg</file>
         <file>RailHorizontale.jpg</file>
         <file>RailVerticale.jpg</file>
+        <file>minion.jpeg</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

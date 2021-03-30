@@ -66,9 +66,6 @@ private:
 
     void setUpParametreWindow();
     QWidget **list_widget_parametre_window;
-    QWidget **list_widget_parametre_vitesse;
-    //QGroupBox *g1;
-    //QGroupBox *g2;
 
     QString interfaceCourante; // soit "parametre", soit "partie"
 
