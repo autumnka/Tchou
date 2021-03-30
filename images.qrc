@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/images">
-        <file>rail.png</file>
         <file>feuEteint.jpg</file>
         <file>feuRouge.jpg</file>
         <file>feuVert.jpg</file>
