@@ -13,7 +13,7 @@
         <file>RailHorizontale.jpg</file>
         <file>RailVerticale.jpg</file>
         <file>minion.jpeg</file>
-        <file>fleche.jpg</file>
+        <file>fleche.svg</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

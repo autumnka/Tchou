@@ -17,7 +17,6 @@ SOURCES += \
     grille.cpp \
     main.cpp \
     mainwindow.cpp \
-    partie.cpp \
     resultat.cpp \
     train.cpp
 
@@ -29,7 +28,6 @@ HEADERS += \
     feu.h \
     grille.h \
     mainwindow.h \
-    partie.h \
     resultat.h \
     train.h
 

@@ -26,21 +26,21 @@ Grille::Grille(QPoint pos, int tailleEnPix,int nb_case)
     if (nb_case == 2)
     {
         matrice_case[0][0] = new CaseRail(5, pos, t_c);
-        matrice_case[0][1] = new CaseVide(0, QPoint(pos.x()+t_c, pos.y()), t_c);
-        matrice_case[1][0] = new CaseRail(3, QPoint(pos.x(), pos.y()+t_c), t_c);
-        matrice_case[1][1] = new CaseRail(1, QPoint(pos.x()+t_c, pos.y()+t_c), t_c);
+        matrice_case[0][1] = new CaseRail(3, QPoint(pos.x()+t_c, pos.y()), t_c);
+        matrice_case[1][0] = new CaseRail(1, QPoint(pos.x(), pos.y()+t_c), t_c);
+        matrice_case[1][1] = new CaseVide(0, QPoint(pos.x()+t_c, pos.y()+t_c), t_c);
 
     }
 
     if (nb_case == 3)
     {
         matrice_case[0][0] = new CaseRail(1, QPoint(pos.x(), pos.y()), t_c);
-        matrice_case[0][1] = new CaseRail(5, QPoint(pos.x()+t_c, pos.y()), t_c);
-        matrice_case[1][1] = new CaseRail(2, QPoint(pos.x()+t_c, pos.y()+t_c), t_c);
+        matrice_case[0][1] = new CaseRail(2, QPoint(pos.x()+t_c, pos.y()), t_c);
+        matrice_case[1][1] = new CaseVide(0, QPoint(pos.x()+t_c, pos.y()+t_c), t_c);
         matrice_case[2][1] = new CaseRail(3, QPoint(pos.x()+t_c, pos.y()+2*t_c), t_c);
         matrice_case[2][2] = new CaseRail(1, QPoint(pos.x()+2*t_c, pos.y()+2*t_c), t_c);
 
-        matrice_case[0][2] = new CaseVide(0, QPoint(pos.x()+2*t_c, pos.y()), t_c);
+        matrice_case[0][2] = new CaseRail(5, QPoint(pos.x()+2*t_c, pos.y()), t_c);
         matrice_case[1][0] = new CaseRail(1, QPoint(pos.x(), pos.y()+t_c), t_c);
         matrice_case[2][0] = new CaseRail(1, QPoint(pos.x(), pos.y()+2*t_c), t_c);
         matrice_case[1][2] = new CaseRail(1, QPoint(pos.x()+2*t_c, pos.y()+t_c), t_c);

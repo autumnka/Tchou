@@ -1,7 +1,5 @@
 #include "mainwindow.h"
 
-
-
 using namespace std;
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow)
@@ -20,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 // Créer les widgets pour quand la MainWindow est en mode paramatre
 void MainWindow::setUpParametreWindow()
 {
-    list_widget_parametre_window = new QWidget*[6];
+    list_widget_parametre_window = new QWidget*[5];
 
     QPushButton *jouer = new QPushButton("jouer ! ", this);
     jouer->move(600, 500);
@@ -152,12 +150,12 @@ void MainWindow::affichePartie()
     if (interfaceCourante =="parametre")
     {
         interfac = true;
-        //afficherTchou(painter);
-        //afficherFleche(painter);
+        afficherTchou(painter);
     }
     else
     {
         interfac = false;
+        afficherFleche(painter);
         afficherGrille();
         //afficherFleche(painter);
         //afficherTchou(painter);
@@ -172,9 +170,16 @@ void MainWindow::affichePartie()
 
 void MainWindow::afficherFleche(QPainter* painter) const
 {
-   // QPixmap *pixmap= new QPixmap(":/images/petitTrain.jpg");
-    //painter->drawPixmap(200,30, 450, 300,*pixmap);
-    painter->drawPixmap(0, 0, 505, 505, QPixmap(":/images/fleche.jpg"));
+    int tC = taillePixelGrille/tailleGrille;
+    int tPixFleche = 0.5*tC;
+
+    // permet de centrer en y la train par rapport au case
+    int yFleche = (taillePixelGrille/tailleGrille - tPixFleche)/2 + posGrille->y();
+    // permet de placer le train juste au bord
+    int xFleche = posGrille->x()-tPixFleche;
+
+    painter->drawPixmap(xFleche, yFleche, tPixFleche, tPixFleche, QPixmap(":/images/fleche.svg"));
+    painter->drawPixmap(xFleche + taillePixelGrille + tPixFleche, yFleche+tC*(tailleGrille-1), tPixFleche, tPixFleche, QPixmap(":/images/fleche.svg"));
 }
 
 void MainWindow::selectionnerNiv1()
@@ -204,9 +209,9 @@ void MainWindow::selectionnerVit3()
 
 void MainWindow::afficherGrille()
 {
-    QPainter *painter2 = new QPainter(this);
-    grille->afficher(painter2);
-    delete painter2;
+    QPainter *painter = new QPainter(this);
+    grille->afficher(painter);
+    delete painter;
 }
 //pour mettre en surbrillance la case sur laquelle on passe
 /*void MainWindow::mouseMoveEvent(QMouseEvent *event){
@@ -372,8 +377,9 @@ void MainWindow::roulerTrain(QString direction, int v)
                 repaint();
             }
         }
-        afficherResultat(direction[0].digitValue());
+
     }
+    afficherResultat(direction[0].digitValue());
 }
 
 void MainWindow::on_Retour_clicked()

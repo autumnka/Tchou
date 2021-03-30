@@ -32,28 +32,6 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QFrame" name="frame">
-    <property name="geometry">
-     <rect>
-      <x>150</x>
-      <y>50</y>
-      <width>500</width>
-      <height>500</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Ignored" vsizetype="Preferred">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
-    </property>
-   </widget>
    <widget class="QPushButton" name="button_aide">
     <property name="geometry">
      <rect>
@@ -65,32 +43,6 @@
     </property>
     <property name="text">
      <string>Aide</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_2">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>50</y>
-      <width>76</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Départ</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_3">
-    <property name="geometry">
-     <rect>
-      <x>670</x>
-      <y>510</y>
-      <width>76</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Arrivé</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_4">
@@ -128,17 +80,13 @@
       <height>33</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
     <property name="text">
      <string>Démarrer</string>
     </property>
    </widget>
-   <zorder>frame</zorder>
-   <zorder>label_2</zorder>
-   <zorder>label_3</zorder>
-   <zorder>button_aide</zorder>
-   <zorder>label_4</zorder>
-   <zorder>Retour</zorder>
-   <zorder>buttonDemarrerTrain</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -146,7 +94,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>29</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
