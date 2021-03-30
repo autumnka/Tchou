@@ -1,16 +1,6 @@
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
-#include "aide.h"
-#include "ui_aide.h"
-#include "resultat.h"
-#include "ui_resultat.h"
-#include <QtGui>
-#include <QRadioButton>
-#include <QDebug>
-#include <QTimer>
-#include <chrono>
-#include <thread>
-#include <QRect>
+
+
 
 using namespace std;
 
@@ -92,11 +82,8 @@ void MainWindow::on_button_aide_clicked()
     a.exec();
 }
 
-void MainWindow::button_jouer_clicked()
+void MainWindow::placerTrainDepart()
 {
-    grille = new Grille(*posGrille, taillePixelGrille, tailleGrille);
-
-    // la taille du train = 0.3 fois taille d'une case
     int tPixTrain = 0.3*taillePixelGrille/tailleGrille;
 
     // permet de centrer en y la train par rapport au case
@@ -105,6 +92,13 @@ void MainWindow::button_jouer_clicked()
     int xTrain = posGrille->x()-tPixTrain;
 
     train = new Train(QPoint(xTrain,yTrain), QPoint(tPixTrain, tPixTrain));
+}
+
+void MainWindow::button_jouer_clicked()
+{
+    grille = new Grille(*posGrille, taillePixelGrille, tailleGrille);
+
+    placerTrainDepart();
 
     switchAffichage();
 }
@@ -151,22 +145,36 @@ void MainWindow::afficherTrain()
 void MainWindow::affichePartie()
 {
     QPainter *painter = new QPainter(this);
+
+
     bool interfac=true;
-    if (interfaceCourante =="parametre"){
+
+    if (interfaceCourante =="parametre")
+    {
         interfac = true;
-        afficherTchou(painter);
+        //afficherTchou(painter);
+        //afficherFleche(painter);
     }
     else
     {
         interfac = false;
         afficherGrille();
+        //afficherFleche(painter);
+        //afficherTchou(painter);
     }
     ui->centralwidget->setVisible(!interfac);
     for (int i=0; i<5; i++){
         this->list_widget_parametre_window[i]->setVisible(interfac);
-        //this->list_widget_parametre_vitesse[i]->setVisible(interfac);
     }
-     delete painter;
+
+    delete painter;
+}
+
+void MainWindow::afficherFleche(QPainter* painter) const
+{
+   // QPixmap *pixmap= new QPixmap(":/images/petitTrain.jpg");
+    //painter->drawPixmap(200,30, 450, 300,*pixmap);
+    painter->drawPixmap(0, 0, 505, 505, QPixmap(":/images/fleche.jpg"));
 }
 
 void MainWindow::selectionnerNiv1()
@@ -196,9 +204,9 @@ void MainWindow::selectionnerVit3()
 
 void MainWindow::afficherGrille()
 {
-    QPainter *painter = new QPainter(this);
-    grille->afficher(painter);
-    delete painter;
+    QPainter *painter2 = new QPainter(this);
+    grille->afficher(painter2);
+    delete painter2;
 }
 //pour mettre en surbrillance la case sur laquelle on passe
 /*void MainWindow::mouseMoveEvent(QMouseEvent *event){
@@ -277,6 +285,7 @@ void MainWindow::roulerTrain(QString direction, int v)
     int k=0;
     int inter=20; //nombre de subdivision du pas du train
     //on teste si le train peut commencer a avancer
+
     if (direction.size() > 1){
         //on positionne le train sur le départ
         train->setPosition(QPoint(xTrain, yTrain));
@@ -378,6 +387,22 @@ void MainWindow::afficherResultat(int g){
     if (g==1)
         res = true;
 
+    int action;
     Resultat r(res, this);
     r.exec();
+
+    action = r.getAction();
+
+    if (action ==0)
+        this->close();
+
+    else if (action == 1)
+    {
+        feu->eteindre();
+        placerTrainDepart();
+    }
+    else if (action == 2)
+        switchAffichage();
+
+    repaint();
 }

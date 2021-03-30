@@ -4,6 +4,8 @@
 #include <QDialog>
 #include <QtGui>
 
+
+
 namespace Ui {
 class Resultat;
 }
@@ -17,12 +19,23 @@ public:
     Resultat(bool gagne, QWidget *parent = nullptr);
     ~Resultat();
 
+    int getAction();
+
 private slots:
+
+    void on_pushButton_quitter_clicked();
+
+    void on_pushButton_continuer_clicked();
+
+    void on_pushButton_recommencer_clicked();
 
 private:
     Ui::Resultat *ui;
     void paintEvent(QPaintEvent* e);
     bool m_gagne;
+
+    /* action vaut 0 si quitter, 1 si continuer, 2 si recommencer */
+    int action = -1;
 };
 
 #endif // RESULTAT_H

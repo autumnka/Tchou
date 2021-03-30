@@ -4,12 +4,16 @@
 #include <QMainWindow>
 #include <QtGui>
 #include <QRadioButton>
-//#include<QGroupBox>
+#include <QDebug>
+#include <chrono>
+#include <thread>
+#include <QRect>
 
 #include "ui_mainwindow.h"
 #include "aide.h"
-#include"resultat.h"
 #include "ui_aide.h"
+#include"resultat.h"
+#include "ui_resultat.h"
 #include "grille.h"
 #include "feu.h"
 #include "train.h"
@@ -29,6 +33,8 @@ public:
     void switchAffichage();
 
     void afficherTchou(QPainter* painter) const;
+    void afficherFleche(QPainter* painter) const;
+
     void affichePartie();
     void afficherGrille();
 
@@ -43,6 +49,8 @@ public:
     void roulerTrain(QString direction, int v);
 
     void afficherResultat(int g);
+
+    void placerTrainDepart();
 
 private slots:
     void on_button_aide_clicked();
@@ -78,6 +86,5 @@ private:
 
     Feu* feu;
     Train *train;
-
 };
 #endif // MAINWINDOW_H

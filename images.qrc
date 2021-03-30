@@ -1,9 +1,6 @@
 <RCC>
     <qresource prefix="/images">
         <file>rail.png</file>
-        <file>testimage.jpeg</file>
-        <file>rail_vertical.png</file>
-        <file>rail_horizontal.png</file>
         <file>feuEteint.jpg</file>
         <file>feuRouge.jpg</file>
         <file>feuVert.jpg</file>
@@ -17,6 +14,7 @@
         <file>RailHorizontale.jpg</file>
         <file>RailVerticale.jpg</file>
         <file>minion.jpeg</file>
+        <file>fleche.jpg</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

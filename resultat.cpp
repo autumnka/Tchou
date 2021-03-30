@@ -39,3 +39,26 @@ Resultat::~Resultat()
 {
     delete ui;
 }
+
+void Resultat::on_pushButton_quitter_clicked()
+{
+    action = 0;
+    close();
+}
+
+void Resultat::on_pushButton_continuer_clicked()
+{
+    action = 1;
+    close();
+}
+
+void Resultat::on_pushButton_recommencer_clicked()
+{
+    action = 2;
+    close();
+}
+
+int Resultat::getAction()
+{
+    return action;
+}
