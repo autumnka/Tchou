@@ -69,6 +69,7 @@ Grille::Grille(QPoint pos, int tailleEnPix,int nb_case)
 ///
 /// \fn Grille::afficher(QPainter *p)
 /// \brief Grille::afficher
+/// \details affiche les cases de la grille
 /// \param p: QPainter*
 ///
 void Grille::afficher(QPainter *p)
@@ -90,6 +91,8 @@ void Grille::afficher(QPainter *p)
 }*/
 ///\fn Grille::verifierChemin()
 /// \brief Grille::verifierChemin
+/// \details verifie que le chemin est valide et stocke le resultat dans le 1er caractere
+/// \details ajoute ensuite la suite des directions que va prendre le train
 /// \return chaine de caractere qui indique si le chemin est valide(1er caractere) et donne les instructions de deplacement
 ///
 QString Grille::verifierChemin()
@@ -151,7 +154,7 @@ QString Grille::verifierChemin()
 ///
 /// \fn Grille::PosVoisine(QPoint pos)
 /// \brief Grille::PosVoisine
-/// \param pos
+/// \param pos: position de la case dont on cherche les voisines
 /// \return vecteur de la position de toute les voisines de la case courante
 ///
 std::vector<QPoint> Grille::PosVoisine(QPoint pos)
@@ -172,10 +175,11 @@ std::vector<QPoint> Grille::PosVoisine(QPoint pos)
     return vois;
 }
 
-// le sens est important
 ///
 /// \fn Grille::sontConnecter(QPoint posCour, QPoint posSuiv)
 /// \brief Grille::sontConnecter
+/// \details indique si le train peut passer d'une case a une autre
+/// \details le sens est important
 /// \param posCour: position de la case courante
 /// \param posSuiv: position de la case suivante
 /// \return direction de déplacement entre 2 cases adjacente ou '0' si le déplacement n'est pas possible
@@ -224,6 +228,7 @@ QChar Grille::sontConnecter(QPoint posCour, QPoint posSuiv)
 ///
 /// \fn Grille::deplacer(Case &c)
 /// \brief Grille::deplacer
+/// \details echange la position de la case avec celle de la case vide
 /// \param c: reference de la case a deplacer
 ///
 void Grille::deplacer(Case &c)
