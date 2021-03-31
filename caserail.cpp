@@ -14,6 +14,7 @@ CaseRail::CaseRail(int type, QPoint p, int taille) : Case(type, p,taille)
 ///
 /// \fn CaseRail:: afficher(QPainter *painter) const
 /// \brief CaseRail::afficher
+/// \details on affiche une image differente selon le type de rail
 /// \param painter: QPainter*
 ///
 void CaseRail:: afficher(QPainter *painter) const{

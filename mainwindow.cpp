@@ -19,10 +19,10 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     train = new Train();
 }
 
-// Créer les widgets pour quand la MainWindow est en mode paramatre
 ///
 /// \fn  MainWindow::setUpParametreWindow()
 /// \brief MainWindow::setUpParametreWindow
+/// \details Crée les widgets pour quand la MainWindow est en mode paramatre
 ///
 void MainWindow::setUpParametreWindow()
 {
@@ -123,6 +123,7 @@ void MainWindow::button_jouer_clicked()
 ///
 /// \fn MainWindow::switchAffichage()
 /// \brief MainWindow::switchAffichage
+/// \permet de passer de l'interface configuration a l'interface Partie et inversement
 ///
 void MainWindow::switchAffichage()
 {

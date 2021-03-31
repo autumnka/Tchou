@@ -2,8 +2,8 @@
 ///
 /// \fn Case::Case(int type, QPoint p,int taille)
 /// \brief constructeur de Case
-/// \param type:
-/// \param p:
+/// \param type: type de la case (0:vide, 1 à 4: rail courbe ou droit)
+/// \param p: coordonnees de la case
 /// \param taille: taille de la case en
 ///
 Case::Case(int type, QPoint p,int taille)
@@ -65,6 +65,7 @@ void Case::setTaille(int taille){
 ///
 /// \fn Case::echanger(Case &c)
 /// \brief Case::echanger
+/// \details permet d'echanger la position de la case courante avec une autre case
 /// \param c: reference de la Case a echanger avec la case courante
 ///
 void Case::echanger(Case &c)

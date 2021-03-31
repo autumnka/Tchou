@@ -3,7 +3,7 @@
 ///
 /// \fn Aide::Aide(QWidget *parent) :QDialog(parent),ui(new Ui::Aide)
 /// \brief Constructeur d'Aide
-/// \param parent
+/// \param parent:QWidget *
 ///
 Aide::Aide(QWidget *parent) :
     QDialog(parent),

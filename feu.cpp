@@ -27,10 +27,10 @@ int Feu::getEtat(){
     return m_etatFeu;
 }
 
-//on allume le feu selon que le chemin soit bon ou pas
 ///
 /// \fn Feu::allumer(bool chemin)
 /// \brief Feu::allumer
+/// \details allume le feu selon que le chemin soit bon ou pas
 /// \param chemin:1 si le chemin est valide, 0 sinon
 ///
 void Feu::allumer(bool chemin){
@@ -40,20 +40,21 @@ void Feu::allumer(bool chemin){
     else m_etatFeu=2; //Feu rouge
 
 }
-//on eteint le feu
+
 ///
 /// \fn Feu::eteindre()
+/// \detail eteint le feu
 /// \brief Feu::eteindre
 ///
 void Feu::eteindre(){
     m_etatFeu=0;
 }
 
-// cette fonction se declenche après l'evenement appuyerFeu
-//on allume le feu en fonction de son etat
 ///
 /// \fn Feu:: afficher(QPainter *painter) const
 /// \brief Feu::afficher
+/// \details affiche le feu en fonction de son etat
+/// \details cette fonction se declenche après l'evenement appuyerFeu
 /// \param painter: QPainter*
 ///
 void Feu:: afficher(QPainter *painter) const{
