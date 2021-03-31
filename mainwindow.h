@@ -1,3 +1,10 @@
+///
+/// \file Mainwindow.h
+/// \brief La classe Mainwindow permet de manipuler la fenetre principale Mainwindow
+/// \author PAULINEAU Jules,POUILLOT Samuel
+/// \version 1.0
+/// \date 31/03/2021
+///
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 

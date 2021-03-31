@@ -1,3 +1,10 @@
+///
+/// \file case.h
+/// \brief La classe Case permet de manipuler des cases
+/// \author PAULINEAU Jules,POUILLOT Samuel
+/// \version 1.0
+/// \date 31/03/2021
+///
 #ifndef CASE_H
 #define CASE_H
 

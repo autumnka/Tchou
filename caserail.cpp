@@ -1,11 +1,21 @@
 #include "caserail.h"
-
+///
+/// \fn CaseRail::CaseRail(int type, QPoint p, int taille) : Case(type, p,taille)
+/// \brief constructeur de CaseRail
+/// \param type: type de rail
+/// \param p: coordonnees de la cases
+/// \param taille: taille de la case
+///
 CaseRail::CaseRail(int type, QPoint p, int taille) : Case(type, p,taille)
 {
    // m_bout1 = bout1;
    // m_bout2 = bout2;
 }
-
+///
+/// \fn CaseRail:: afficher(QPainter *painter) const
+/// \brief CaseRail::afficher
+/// \param painter: QPainter*
+///
 void CaseRail:: afficher(QPainter *painter) const{
     QPixmap *pixmap;
     switch (m_typeCase)

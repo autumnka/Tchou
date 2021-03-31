@@ -1,12 +1,21 @@
 #include "grille.h"
 #include <QtGui>
 #include <QDebug>
-
+///
+/// \fn Grille::Grille()
+/// \brief constructeur par defaut de grille
+///
 Grille::Grille()
 {
 
 }
-
+///
+/// \fn Grille::Grille(QPoint pos, int tailleEnPix,int nb_case)
+/// \brief constructeur de recopie de grille
+/// \param pos: coordonnées de la grille
+/// \param tailleEnPix: taille de la grille en pixel
+/// \param nb_case: nombre de case sur chaque ligne de la grille
+///
 Grille::Grille(QPoint pos, int tailleEnPix,int nb_case)
 {
     this->pos = pos;
@@ -57,7 +66,11 @@ Grille::Grille(QPoint pos, int tailleEnPix,int nb_case)
     }(while(matrice_case->contains(QPoint(randomX,randomY))));
 
 }*/
-
+///
+/// \fn Grille::afficher(QPainter *p)
+/// \brief Grille::afficher
+/// \param p: QPainter*
+///
 void Grille::afficher(QPainter *p)
 {
     for (int i = 0; i<nb_case; ++i)
@@ -75,7 +88,10 @@ void Grille::afficher(QPainter *p)
 {
 
 }*/
-
+///\fn Grille::verifierChemin()
+/// \brief Grille::verifierChemin
+/// \return chaine de caractere qui indique si le chemin est valide(1er caractere) et donne les instructions de deplacement
+///
 QString Grille::verifierChemin()
 {
     bool continuer=true;
@@ -132,7 +148,12 @@ QString Grille::verifierChemin()
         return "0"+instructionDeplacement;
     }
 }
-
+///
+/// \fn Grille::PosVoisine(QPoint pos)
+/// \brief Grille::PosVoisine
+/// \param pos
+/// \return vecteur de la position de toute les voisines de la case courante
+///
 std::vector<QPoint> Grille::PosVoisine(QPoint pos)
 {
     std::vector<QPoint> vois;
@@ -152,8 +173,13 @@ std::vector<QPoint> Grille::PosVoisine(QPoint pos)
 }
 
 // le sens est important
-// cette fonction retourne la direction de déplacement entre 2 cases adjacente
-// et '0' si le déplacement n'est pas possible
+///
+/// \fn Grille::sontConnecter(QPoint posCour, QPoint posSuiv)
+/// \brief Grille::sontConnecter
+/// \param posCour: position de la case courante
+/// \param posSuiv: position de la case suivante
+/// \return direction de déplacement entre 2 cases adjacente ou '0' si le déplacement n'est pas possible
+///
 QChar Grille::sontConnecter(QPoint posCour, QPoint posSuiv)
 {
     Case *suiv = matrice_case[posSuiv.y()][posSuiv.x()];
@@ -195,7 +221,11 @@ QChar Grille::sontConnecter(QPoint posCour, QPoint posSuiv)
 
     return '0';
 }
-
+///
+/// \fn Grille::deplacer(Case &c)
+/// \brief Grille::deplacer
+/// \param c: reference de la case a deplacer
+///
 void Grille::deplacer(Case &c)
 {
     //on va deplacer la case si ce n'est pas la case vide
@@ -237,12 +267,27 @@ void Grille::deplacer(Case &c)
 }
 
 //getters et setters
+///
+/// \fn Grille::getNbCase()
+/// \brief Grille::getNbCase
+/// \return le nombre de case sur chaque ligne de la grille
+///
 int Grille::getNbCase(){
     return nb_case;
 }
+///
+/// \fn Grille::getMatrice()
+/// \brief Grille::getMatrice
+/// \return un pointeur sur la matrice des cases de la grille
+///
 Case*** Grille::getMatrice(){
     return matrice_case;
 }
+///
+/// \fn Grille::getPos()
+/// \brief Grille::getPos
+/// \return la position de la grille
+///
 QPoint Grille::getPos(){
     return pos;
 }

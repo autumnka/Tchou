@@ -1,7 +1,11 @@
 #include "mainwindow.h"
 
 using namespace std;
-
+///
+/// \fn MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow)
+/// \brief constructeur de Mainwindow
+/// \param parent: QWidget*
+///
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
@@ -16,6 +20,10 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 }
 
 // Créer les widgets pour quand la MainWindow est en mode paramatre
+///
+/// \fn  MainWindow::setUpParametreWindow()
+/// \brief MainWindow::setUpParametreWindow
+///
 void MainWindow::setUpParametreWindow()
 {
     list_widget_parametre_window = new QWidget*[5];
@@ -68,18 +76,27 @@ void MainWindow::setUpParametreWindow()
     QObject::connect(vitesse2, SIGNAL(clicked()), this, SLOT(selectionnerVit2()));
     QObject::connect(vitesse3, SIGNAL(clicked()), this, SLOT(selectionnerVit3()));
 }
-
+///
+/// \fn MainWindow::~MainWindow()
+/// \brief destructeur de Mainwindow
+///
 MainWindow::~MainWindow()
 {
     delete ui;
 }
-
+///
+/// \fn MainWindow::on_button_aide_clicked()
+/// \brief MainWindow::on_button_aide_clicked
+///
 void MainWindow::on_button_aide_clicked()
 {
     Aide a(this);
     a.exec();
 }
-
+///
+/// \fn MainWindow::placerTrainDepart()
+/// \brief MainWindow::placerTrainDepart
+///
 void MainWindow::placerTrainDepart()
 {
     int tPixTrain = 0.3*taillePixelGrille/tailleGrille;
@@ -91,7 +108,10 @@ void MainWindow::placerTrainDepart()
 
     train = new Train(QPoint(xTrain,yTrain), QPoint(tPixTrain, tPixTrain));
 }
-
+///
+/// \fn MainWindow::button_jouer_clicked()
+/// \brief MainWindow::button_jouer_clicked
+///
 void MainWindow::button_jouer_clicked()
 {
     grille = new Grille(*posGrille, taillePixelGrille, tailleGrille);
@@ -100,7 +120,10 @@ void MainWindow::button_jouer_clicked()
 
     switchAffichage();
 }
-
+///
+/// \fn MainWindow::switchAffichage()
+/// \brief MainWindow::switchAffichage
+///
 void MainWindow::switchAffichage()
 {
     if (interfaceCourante == "parametre")
@@ -109,7 +132,11 @@ void MainWindow::switchAffichage()
         interfaceCourante = "parametre";
     repaint();
 }
-
+///
+/// \fn MainWindow::paintEvent(QPaintEvent *e)
+/// \brief MainWindow::paintEvent
+/// \param e: QPaintEvent*
+///
 void MainWindow::paintEvent(QPaintEvent *e)
 {
     affichePartie();
@@ -121,25 +148,39 @@ void MainWindow::paintEvent(QPaintEvent *e)
     }
 }
 //affiche l'image principale sur l'interface de Configuration
+///
+/// \fn  MainWindow::afficherTchou(QPainter *painter) const
+/// \brief MainWindow::afficherTchou
+/// \param painter: QPainter*
+///
 void MainWindow::afficherTchou(QPainter *painter) const{
     QPixmap *pixmap= new QPixmap(":/images/petitTrain.jpg");
     painter->drawPixmap(200,30, 450, 300,*pixmap);
 }
-
+///
+/// \fn MainWindow::afficherFeu()
+/// \brief MainWindow::afficherFeu
+///
 void MainWindow::afficherFeu()
 {
     QPainter *painter = new QPainter(this);
     feu->afficher(painter);
     delete painter;
 }
-
+///
+/// \fn MainWindow::afficherTrain()
+/// \brief MainWindow::afficherTrain
+///
 void MainWindow::afficherTrain()
 {
     QPainter *painter = new QPainter(this);
     train->afficher(painter);
     delete painter;
 }
-
+///
+/// \fn MainWindow::affichePartie()
+/// \brief MainWindow::affichePartie
+///
 void MainWindow::affichePartie()
 {
     QPainter *painter = new QPainter(this);
@@ -167,7 +208,11 @@ void MainWindow::affichePartie()
 
     delete painter;
 }
-
+///
+/// \fn MainWindow::afficherFleche(QPainter* painter) const
+/// \brief MainWindow::afficherFleche
+/// \param painter: QPainter*
+///
 void MainWindow::afficherFleche(QPainter* painter) const
 {
     int tC = taillePixelGrille/tailleGrille;
@@ -181,32 +226,52 @@ void MainWindow::afficherFleche(QPainter* painter) const
     painter->drawPixmap(xFleche, yFleche, tPixFleche, tPixFleche, QPixmap(":/images/fleche.svg"));
     painter->drawPixmap(xFleche + taillePixelGrille + tPixFleche, yFleche+tC*(tailleGrille-1), tPixFleche, tPixFleche, QPixmap(":/images/fleche.svg"));
 }
-
+///
+/// \fn MainWindow::selectionnerNiv1()
+/// \brief MainWindow::selectionnerNiv1
+///
 void MainWindow::selectionnerNiv1()
 {
     ui->label_4->setText("Partie de TchouTchou niveau facile");
     tailleGrille = 2;
 }
-
+///
+/// \fn MainWindow::selectionnerNiv2()
+/// \brief MainWindow::selectionnerNiv2
+///
 void MainWindow::selectionnerNiv2()
 {
     ui->label_4->setText("Partie de TchouTchou niveau difficile");
     tailleGrille = 3;
 }
-
+///
+/// \fn MainWindow::selectionnerVit1()
+/// \brief MainWindow::selectionnerVit1
+///
 void MainWindow::selectionnerVit1()
 {
     vitesseTrain = 1;
 }
+///
+/// \fn MainWindow::selectionnerVit2()
+/// \brief MainWindow::selectionnerVit2
+///
 void MainWindow::selectionnerVit2()
 {
     vitesseTrain = 2;
 }
+///
+/// \fn MainWindow::selectionnerVit3()
+/// \brief MainWindow::selectionnerVit3
+///
 void MainWindow::selectionnerVit3()
 {
     vitesseTrain = 4;
 }
-
+///
+/// \fn MainWindow::afficherGrille()
+/// \brief MainWindow::afficherGrille
+///
 void MainWindow::afficherGrille()
 {
     QPainter *painter = new QPainter(this);
@@ -234,13 +299,21 @@ void MainWindow::afficherGrille()
     }
     repaint();
 }*/
-
+///
+/// \fn MainWindow::mousePressEvent(QMouseEvent *me)
+/// \brief MainWindow::mousePressEvent
+/// \param me: QMouseEvent*
+///
 void MainWindow::mousePressEvent(QMouseEvent *me)
 {
     if (interfaceCourante == "partie")
         deplacerCase(me);
 }
-
+///
+/// \fn MainWindow::deplacerCase(QMouseEvent *me)
+/// \brief MainWindow::deplacerCase
+/// \param me: QMouseEvent*
+///
 void MainWindow::deplacerCase(QMouseEvent *me)
 {
     QPoint p=me->pos();
@@ -262,7 +335,10 @@ void MainWindow::deplacerCase(QMouseEvent *me)
     }
     repaint();
 }
-
+///
+/// \fn
+/// \brief MainWindow::on_buttonDemarrerTrain_clicked
+///
 void MainWindow::on_buttonDemarrerTrain_clicked()
 {
     QString s = grille->verifierChemin();
@@ -273,7 +349,12 @@ void MainWindow::on_buttonDemarrerTrain_clicked()
     repaint();
     roulerTrain(s,vitesseTrain);
 }
-
+///
+/// \fn MainWindow::roulerTrain(QString direction, int v)
+/// \brief MainWindow::roulerTrain
+/// \param direction: liste dont le 1er caractere indique si le chemin est valide et contenant la liste des instructions de deplacements
+/// \param v: taille du pas de deplacement du train
+///
 void MainWindow::roulerTrain(QString direction, int v)
 {
     // taille d'une case
@@ -381,12 +462,19 @@ void MainWindow::roulerTrain(QString direction, int v)
     }
     afficherResultat(direction[0].digitValue());
 }
-
+///
+/// \fn MainWindow::on_Retour_clicked()
+/// \brief MainWindow::on_Retour_clicked
+///
 void MainWindow::on_Retour_clicked()
 {
     switchAffichage();
 }
-
+///
+/// \fn MainWindow::afficherResultat(int g)
+/// \brief MainWindow::afficherResultat
+/// \param g: 1 si le chemin est valide, 0 sinon
+///
 void MainWindow::afficherResultat(int g){
     //on teste si le joueur a gagné
     bool res = false;

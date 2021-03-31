@@ -1,3 +1,10 @@
+///
+/// \file casevide.h
+/// \brief La classe CaseVide permet de manipuler des cases vides
+/// \author PAULINEAU Jules,POUILLOT Samuel
+/// \version 1.0
+/// \date 31/03/2021
+///
 #ifndef CASEVIDE_H
 #define CASEVIDE_H
 

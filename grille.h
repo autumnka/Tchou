@@ -1,3 +1,10 @@
+///
+/// \file grille.h
+/// \brief La classe Grille permet de manipuler des grilles
+/// \author PAULINEAU Jules,POUILLOT Samuel
+/// \version 1.0
+/// \date 31/03/2021
+///
 #ifndef GRILLE_H
 #define GRILLE_H
 
