@@ -1,3 +1,10 @@
+///
+/// \file train.h
+/// \brief La classe Train permet de manipuler des trains
+/// \author PAULINEAU Jules,POUILLOT Samuel
+/// \version 1.0
+/// \date 31/03/2021
+///
 #ifndef TRAIN_H
 #define TRAIN_H
 

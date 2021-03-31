@@ -1,3 +1,10 @@
+///
+/// \file caserail.h
+/// \brief La classe CaseRail permet de manipuler des cases rails
+/// \author PAULINEAU Jules,POUILLOT Samuel
+/// \version 1.0
+/// \date 31/03/2021
+///
 #ifndef CASERAIL_H
 #define CASERAIL_H
 

@@ -1,3 +1,10 @@
+///
+/// \file resultat.h
+/// \brief La classe Resultat permet de manipuler la fenetre resultat
+/// \author PAULINEAU Jules,POUILLOT Samuel
+/// \version 1.0
+/// \date 31/03/2021
+///
 #ifndef RESULTAT_H
 #define RESULTAT_H
 

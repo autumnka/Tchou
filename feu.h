@@ -1,3 +1,10 @@
+///
+/// \file feu.h
+/// \brief La classe Feu permet de manipuler des feu
+/// \author PAULINEAU Jules,POUILLOT Samuel
+/// \version 1.0
+/// \date 31/03/2021
+///
 #ifndef FEU_H
 #define FEU_H
 
